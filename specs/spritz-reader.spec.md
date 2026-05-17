@@ -1,0 +1,123 @@
+# Spritz Reader — Business Specification
+
+## 1. Overview
+
+A web application that demonstrates the **Spritz speed-reading technique**: words from a text are displayed one at a time at a configurable rate (WPM), each word visually anchored at its **Optimal Recognition Point (ORP)** — the specific letter the human eye should focus on for fastest recognition. The goal is to show users they can read faster than they think without losing comprehension.
+
+## 2. Goals
+
+- Demonstrate the Spritz reading method interactively in a browser.
+- Allow users to experience different reading speeds (WPM) in real time.
+- Support both a curated demo text and custom user-provided text.
+- Provide a clean, distraction-free UI with light and dark modes.
+
+## 3. Non-Goals
+
+- No user accounts, authentication, or data persistence beyond theme preference.
+- No text-to-speech, audio, or server-side processing.
+- No font size controls in this version.
+- No E2E test suite in this version.
+
+## 4. User Stories
+
+### US-01 — Speed Reader Display
+
+> As a visitor, I want to see one word at a time displayed at the center of the screen, with one letter highlighted in a distinct color, so that I can focus my eyes and read at the configured speed.
+
+**Acceptance Criteria:**
+
+- [ ] Each word is split into three parts: characters before ORP, the ORP character, characters after ORP.
+- [ ] The ORP character is rendered in a distinct accent color (blue, matching screenshot reference).
+- [ ] A vertical focal guide line is drawn at the ORP position.
+- [ ] The word changes automatically at the configured WPM rate during playback.
+- [ ] The display font is monospaced so that ORP alignment is stable.
+
+### US-02 — Playback Controls
+
+> As a user, I want play, pause, and restart controls so I can manage my reading session at will.
+
+**Acceptance Criteria:**
+
+- [ ] A Play/Pause button toggles playback. When paused, the current word stays on screen.
+- [ ] A Restart button resets the reader to the first word.
+- [ ] Playback state is clearly communicated via the button label/icon.
+- [ ] When the last word is reached, playback stops automatically and the finished state is shown.
+
+### US-03 — WPM Speed Control
+
+> As a user, I want to adjust reading speed from 100 to 1000 WPM so I can find my comfortable pace.
+
+**Acceptance Criteria:**
+
+- [ ] A slider or increment/decrement control adjusts WPM in steps of 50.
+- [ ] Current WPM value is always visible.
+- [ ] Changing speed during playback takes effect immediately without restarting.
+- [ ] Min = 100 WPM, Max = 1000 WPM.
+
+### US-04 — Progress Indicator
+
+> As a user, I want to see my progress through the text so I know how much is left.
+
+**Acceptance Criteria:**
+
+- [ ] A progress bar visually fills as words are consumed.
+- [ ] A counter showing "word N of M" is displayed.
+
+### US-05 — Custom Text Input
+
+> As a user, I want to paste my own text so I can speed-read content I choose.
+
+**Acceptance Criteria:**
+
+- [ ] A textarea is available for the user to input custom text.
+- [ ] A toggle/button switches between demo text and custom text.
+- [ ] When custom text is empty, the app falls back to demo text.
+- [ ] Changing text resets the reader to the first word.
+
+### US-06 — Demo Text
+
+> As a visitor, I want a preloaded multilingual demo paragraph (EN/CA/ES) so I can try the reader immediately without typing.
+
+**Acceptance Criteria:**
+
+- [ ] The app loads with a demo paragraph by default.
+- [ ] The demo text contains a natural mix of English, Catalan, and Spanish sentences.
+
+### US-07 — Light / Dark Mode
+
+> As a user, I want to toggle between light and dark mode so I can read comfortably in any environment.
+
+**Acceptance Criteria:**
+
+- [ ] A toggle button switches between light and dark themes.
+- [ ] The selected theme is persisted in `localStorage` and restored on next visit.
+- [ ] Dark mode is the default.
+
+### US-08 — Keyboard Shortcuts
+
+> As a power user, I want keyboard shortcuts so I can control the reader without using the mouse.
+
+**Acceptance Criteria:**
+
+- [ ] `Space` — play / pause.
+- [ ] `R` — restart.
+- [ ] `←` arrow — decrease WPM by 50.
+- [ ] `→` arrow — increase WPM by 50.
+- [ ] Shortcuts are documented in the UI (e.g., tooltip or small legend).
+
+## 5. Design Requirements
+
+- **Style**: Minimalist, dark background by default (near-black `#0D0F12`), high-contrast white text.
+- **ORP accent color**: Blue (`#5B8DEF` or similar).
+- **Typography**: Monospaced font for the word display (e.g., `JetBrains Mono`, `Courier New` fallback).
+- **Layout**: Centered single-column; max-width constrained (~900px) for comfortable reading.
+- **Responsive**: Functional on mobile (≥ 375px wide).
+- **Accessibility**: All interactive controls must have ARIA labels; focus styles must be visible.
+
+## 6. Constraints
+
+- **Package manager**: `pnpm` exclusively — no `npm` or `yarn`.
+- **Deployment**: Static site — no backend, no API calls.
+- **Framework**: React 19 + Vite 6 + TypeScript.
+- **Styling**: Tailwind CSS v4 (`dark:` variant via `class` on `<html>`).
+- **Testing**: Vitest unit tests for utilities and hooks.
