@@ -32,7 +32,7 @@
   - `splitWordAtOrp(word: string): { left: string; pivot: string; right: string }`
 - [x] **T-12** Implement `src/utils/textParser.ts`
   - `parseText(raw: string): string[]` — split on whitespace, filter empty
-- [x] **T-13** Create `src/data/demoText.ts` — multilingual EN/CA/ES paragraph export
+- [x] **T-13** Create `src/data/demoText.ts` — ~~multilingual EN/CA/ES paragraph export~~ **updated in T-33**
 
 ---
 
@@ -62,7 +62,7 @@
   - Finished state: show completion message
 - [x] **T-17** Implement `src/components/Controls/Controls.tsx`
   - Play/Pause button (icon + label, ref: US-02)
-  - WPM display with `−` / `+` buttons (step 50, min 100, max 1000, ref: US-03)
+  - Five WPM preset buttons: 150 / 250 / 350 / 500 / 750 (ref: US-03); active preset highlighted
   - Restart button (ref: US-02)
   - All buttons have `aria-label`
 - [x] **T-18** Implement `src/components/ProgressBar/ProgressBar.tsx`
@@ -115,7 +115,8 @@
   - Play button fires `onPlay` callback
   - Pause button fires `onPause` callback
   - Restart button fires `onRestart` callback
-  - `+` / `−` WPM buttons fire `onWpmChange` with correct values
+  - All 5 WPM preset buttons render; clicking one fires `onWpmChange` with that value
+  - Active preset has `aria-pressed="true"`
 
 ---
 
@@ -124,6 +125,24 @@
 - [ ] **T-27** Verify responsive layout at 375px, 768px, 1280px viewport widths
 - [ ] **T-28** Add keyboard shortcut legend to the UI (tooltip or footer note, ref: US-08) _(hint already in Controls component)_
 - [ ] **T-29** Verify all interactive elements have visible focus rings (accessibility)
-- [x] **T-30** Run `pnpm vitest run` — all 49 tests pass ✓
+- [x] **T-30** Run `pnpm vitest run` — all 48 tests pass ✓
 - [x] **T-31** Run `pnpm build` — production build succeeds with no TypeScript errors ✓
 - [x] **T-32** Update this file: mark all completed tasks with `[x]`
+
+---
+
+## Phase 9 — i18n: Language Selector (ref: spec US-09, US-06)
+
+- [x] **T-33** Update `src/data/demoText.ts` — replace single `DEMO_TEXT` with `DEMO_TEXTS: Record<Language, string>` (one paragraph per language)
+- [x] **T-34** Create `src/i18n/translations.ts` — `Translations` interface + `translations` record for EN / CA / ES
+- [x] **T-35** Create `src/hooks/useLanguage.ts` — language state (`'en' | 'ca' | 'es'`), `localStorage` persistence under `'spritz-language'`, default `'en'`
+- [x] **T-36** Create `src/components/LanguageSelector/LanguageSelector.tsx` — native `<select>` dropdown for EN / CA / ES
+- [x] **T-37** Update `src/components/SpeedReader/SpeedReader.tsx` — add `t: Translations` prop; use `t.idlePlaceholder` and `t.finishedMessage`
+- [x] **T-38** Update `src/components/Controls/Controls.tsx` — add `t: Translations` prop; use `t.play`, `t.pause`, `t.restart`, `t.keyboardHint`
+- [x] **T-39** Update `src/components/ProgressBar/ProgressBar.tsx` — add `t: Translations` prop; use `t.wordOf(current, total)`
+- [x] **T-40** Update `src/components/TextInput/TextInput.tsx` — add `t: Translations` prop; use `t.changeText`, `t.hideTextPanel`, `t.textareaPlaceholder`, `t.useDemoText`
+- [x] **T-41** Update `src/components/ThemeToggle/ThemeToggle.tsx` — add `t: Translations` prop; use `t.switchToLight`, `t.switchToDark`
+- [x] **T-42** Update `src/App.tsx` — add `useLanguage`; compute `t = translations[language]`; add `LanguageSelector` to header; when language changes and demo is active, switch demo text; track `isUsingDemo` flag
+- [x] **T-43** Update unit tests that assert hard-coded English strings — pass a mock `t` prop with expected strings
+- [x] **T-44** Run `pnpm vitest run` — all tests pass
+- [x] **T-45** Run `pnpm build` — no TypeScript errors

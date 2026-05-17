@@ -10,10 +10,11 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - Allow users to experience different reading speeds (WPM) in real time.
 - Support both a curated demo text and custom user-provided text.
 - Provide a clean, distraction-free UI with light and dark modes.
+- Support English, Catalan, and Spanish — both the interface and the demo text adapt to the selected language.
 
 ## 3. Non-Goals
 
-- No user accounts, authentication, or data persistence beyond theme preference.
+- No user accounts, authentication, or data persistence beyond theme and language preference.
 - No text-to-speech, audio, or server-side processing.
 - No font size controls in this version.
 - No E2E test suite in this version.
@@ -27,7 +28,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 **Acceptance Criteria:**
 
 - [ ] Each word is split into three parts: characters before ORP, the ORP character, characters after ORP.
-- [ ] The ORP character is rendered in a distinct accent color (blue, matching screenshot reference).
+- [ ] The ORP character is rendered in a distinct accent color (amber).
 - [ ] A vertical focal guide line is drawn at the ORP position.
 - [ ] The word changes automatically at the configured WPM rate during playback.
 - [ ] The display font is monospaced so that ORP alignment is stable.
@@ -49,10 +50,10 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 
 **Acceptance Criteria:**
 
-- [ ] A slider or increment/decrement control adjusts WPM in steps of 50.
-- [ ] Current WPM value is always visible.
+- [ ] Five preset speed buttons are shown: **150 / 250 / 350 / 500 / 750 WPM**.
+- [ ] The active preset is visually highlighted (accent color).
 - [ ] Changing speed during playback takes effect immediately without restarting.
-- [ ] Min = 100 WPM, Max = 1000 WPM.
+- [ ] Keyboard arrows (← / →) also adjust WPM in steps of 50 within the 100–1000 range.
 
 ### US-04 — Progress Indicator
 
@@ -76,12 +77,14 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 
 ### US-06 — Demo Text
 
-> As a visitor, I want a preloaded multilingual demo paragraph (EN/CA/ES) so I can try the reader immediately without typing.
+> As a visitor, I want a preloaded demo paragraph in the selected language so I can try the reader immediately without typing.
 
 **Acceptance Criteria:**
 
-- [ ] The app loads with a demo paragraph by default.
-- [ ] The demo text contains a natural mix of English, Catalan, and Spanish sentences.
+- [ ] The app loads with a demo paragraph by default (English on first visit).
+- [ ] Each supported language (EN / CA / ES) has its own dedicated demo paragraph.
+- [ ] When the user changes the interface language while the demo text is active, the demo paragraph switches to the new language automatically.
+- [ ] If the user has entered custom text, a language change does not overwrite it.
 
 ### US-07 — Light / Dark Mode
 
@@ -105,10 +108,23 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - [ ] `→` arrow — increase WPM by 50.
 - [ ] Shortcuts are documented in the UI (e.g., tooltip or small legend).
 
+### US-09 — Language Selector
+
+> As a user, I want to switch the interface language between English, Catalan, and Spanish so that the UI and demo text are shown in my preferred language.
+
+**Acceptance Criteria:**
+
+- [ ] A language selector dropdown is displayed in the header, next to the theme toggle.
+- [ ] Supported languages: **EN** (English), **CA** (Catalan), **ES** (Spanish).
+- [ ] Selecting a language updates all UI strings (button labels, placeholders, messages) immediately.
+- [ ] The selected language is persisted in `localStorage` under the key `'spritz-language'` and restored on next visit.
+- [ ] The default language on first visit is English (`'en'`).
+- [ ] If the reader is showing the demo text when the language changes, the demo text is replaced with the equivalent paragraph in the new language and playback restarts.
+
 ## 5. Design Requirements
 
-- **Style**: Minimalist, dark background by default (near-black `#0D0F12`), high-contrast white text.
-- **ORP accent color**: Blue (`#5B8DEF` or similar).
+- **Style**: Minimalist; dark background by default (near-black `#09090B`), high-contrast white text.
+- **ORP accent color**: Amber (`#F59E0B` dark / `#D97706` light).
 - **Typography**: Monospaced font for the word display (e.g., `JetBrains Mono`, `Courier New` fallback).
 - **Layout**: Centered single-column; max-width constrained (~900px) for comfortable reading.
 - **Responsive**: Functional on mobile (≥ 375px wide).

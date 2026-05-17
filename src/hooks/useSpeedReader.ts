@@ -27,7 +27,7 @@ const WPM_MAX = 1000;
 
 export function useSpeedReader(
   text: string,
-  initialWpm = 300,
+  initialWpm = 350,
 ): UseSpeedReaderReturn {
   const [words, setWords] = useState<string[]>(() => parseText(text));
   const [currentIndex, setCurrentIndex] = useState(0);

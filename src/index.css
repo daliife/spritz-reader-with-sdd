@@ -2,21 +2,29 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Static design tokens */
 @theme {
-  --color-bg: #0d0f12;
-  --color-surface: #161a20;
-  --color-text-primary: #f0f0f0;
-  --color-text-muted: #6b7280;
-  --color-accent: #5b8def;
-  --color-border: #2d3139;
-
-  --color-bg-light: #f5f5f5;
-  --color-surface-light: #ffffff;
-  --color-text-primary-light: #1a1a1a;
-  --color-accent-light: #3b6fd4;
-  --color-border-light: #e0e0e0;
-
   --font-mono: "JetBrains Mono", "Courier New", ui-monospace, monospace;
+}
+
+/* Light theme (default) */
+:root {
+  --color-bg:           #fafafa;
+  --color-surface:      #ffffff;
+  --color-text-primary: #09090b;
+  --color-text-muted:   #78716c;
+  --color-accent:       #4a6cf7;
+  --color-border:       #e4e4e7;
+}
+
+/* Dark theme — applied when <html class="dark"> */
+.dark {
+  --color-bg:           #09090b;
+  --color-surface:      #111113;
+  --color-text-primary: #fafafa;
+  --color-text-muted:   #52525b;
+  --color-accent:       #6481f8;
+  --color-border:       #27272a;
 }
 
 *,
@@ -32,6 +40,8 @@ html {
 body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
 }
 
 :focus-visible {

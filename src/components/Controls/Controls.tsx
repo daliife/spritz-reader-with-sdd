@@ -1,112 +1,80 @@
-import type { ReaderStatus } from "../../hooks/useSpeedReader";
+import type { ReaderStatus } from '../../hooks/useSpeedReader'
+import type { Translations } from '../../i18n/translations'
 
 interface ControlsProps {
-  status: ReaderStatus;
-  wpm: number;
-  onPlay: () => void;
-  onPause: () => void;
-  onRestart: () => void;
-  onWpmChange: (wpm: number) => void;
+  status: ReaderStatus
+  wpm: number
+  onPlay: () => void
+  onPause: () => void
+  onRestart: () => void
+  onWpmChange: (wpm: number) => void
+  t: Translations
 }
 
-const WPM_MIN = 100;
-const WPM_MAX = 1000;
-const WPM_STEP = 50;
+const WPM_PRESETS = [150, 250, 350, 500, 750] as const
 
 /**
  * Playback controls — ref: spritz-reader.plan.md §7, spec US-02, US-03
  */
-export function Controls({
-  status,
-  wpm,
-  onPlay,
-  onPause,
-  onRestart,
-  onWpmChange,
-}: ControlsProps) {
-  const isPlaying = status === "playing";
-  const isFinished = status === "finished";
+export function Controls({ status, wpm, onPlay, onPause, onRestart, onWpmChange, t }: ControlsProps) {
+  const isPlaying = status === 'playing'
+  const isFinished = status === 'finished'
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full">
-      {/* WPM control */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => onWpmChange(wpm - WPM_STEP)}
-          disabled={wpm <= WPM_MIN}
-          aria-label="Decrease speed by 50 WPM"
-          className="w-8 h-8 rounded flex items-center justify-center
-                     text-[--color-text-primary] bg-[--color-surface]
-                     border border-[--color-border]
-                     hover:border-[--color-accent] disabled:opacity-30
-                     disabled:cursor-not-allowed transition-colors"
-        >
-          −
-        </button>
-
-        <div className="flex flex-col items-center min-w-[6rem]">
-          <input
-            type="range"
-            min={WPM_MIN}
-            max={WPM_MAX}
-            step={WPM_STEP}
-            value={wpm}
-            onChange={(e) => onWpmChange(Number(e.target.value))}
-            aria-label="Reading speed in words per minute"
-            className="w-32 accent-[--color-accent]"
-          />
-          <span
-            className="text-sm text-[--color-text-muted] mt-1"
-            aria-live="polite"
-          >
-            {wpm} <span className="text-xs">WPM</span>
-          </span>
-        </div>
-
-        <button
-          onClick={() => onWpmChange(wpm + WPM_STEP)}
-          disabled={wpm >= WPM_MAX}
-          aria-label="Increase speed by 50 WPM"
-          className="w-8 h-8 rounded flex items-center justify-center
-                     text-[--color-text-primary] bg-[--color-surface]
-                     border border-[--color-border]
-                     hover:border-[--color-accent] disabled:opacity-30
-                     disabled:cursor-not-allowed transition-colors"
-        >
-          +
-        </button>
+    <div className="flex flex-col items-center gap-5 w-full">
+      {/* WPM presets */}
+      <div className="flex items-center gap-2" role="group" aria-label="Reading speed presets">
+        {WPM_PRESETS.map((preset) => {
+          const isActive = wpm === preset
+          return (
+            <button
+              key={preset}
+              onClick={() => onWpmChange(preset)}
+              aria-label={`${preset} words per minute`}
+              aria-pressed={isActive}
+              className={[
+                'px-3 py-1.5 rounded-md text-xs font-medium tabular-nums transition-colors',
+                isActive
+                  ? 'bg-(--color-accent) text-[#09090b]'
+                  : 'border border-(--color-border) text-(--color-text-muted) hover:text-(--color-text-primary) hover:border-(--color-accent)',
+              ].join(' ')}
+            >
+              {preset}
+            </button>
+          )
+        })}
+        <span className="text-xs text-(--color-text-muted) ml-1 select-none">WPM</span>
       </div>
 
       {/* Play / Pause / Restart */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-5">
         <button
           onClick={onRestart}
-          aria-label="Restart reading from the beginning (R)"
-          className="px-4 py-2 rounded border border-[--color-border]
-                     text-[--color-text-muted] hover:text-[--color-text-primary]
-                     hover:border-[--color-accent] transition-colors text-sm"
+          aria-label={`${t.restart} (R)`}
+          className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
+                     transition-colors"
         >
-          ↺ Restart
+          ↺ {t.restart}
         </button>
 
         <button
           onClick={isPlaying ? onPause : onPlay}
           disabled={isFinished}
-          aria-label={
-            isPlaying ? "Pause reading (Space)" : "Play reading (Space)"
-          }
-          className="px-6 py-2 rounded bg-[--color-accent] text-white font-medium
-                     hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed
-                     transition-opacity text-sm"
+          aria-label={isPlaying ? `${t.pause} (Space)` : `${t.play} (Space)`}
+          className="px-9 py-2.5 rounded-full bg-(--color-accent) text-[#09090b]
+                     font-semibold text-sm tracking-wide
+                     hover:brightness-110 active:scale-[0.97]
+                     disabled:opacity-30 disabled:cursor-not-allowed
+                     transition-all duration-150"
         >
-          {isPlaying ? "⏸ Pause" : "▶ Play"}
+          {isPlaying ? t.pause : t.play}
         </button>
       </div>
 
       {/* Keyboard hint */}
-      <p className="text-xs text-[--color-text-muted] select-none">
-        Space · R · ← / →
+      <p className="text-xs text-(--color-text-muted) select-none tracking-wide">
+        {t.keyboardHint}
       </p>
     </div>
-  );
+  )
 }

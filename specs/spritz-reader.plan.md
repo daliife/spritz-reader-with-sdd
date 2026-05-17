@@ -34,19 +34,24 @@ spritz-reader-with-sdd/
 │   │   │   └── ProgressBar.tsx      # Progress fill + word counter
 │   │   ├── TextInput/
 │   │   │   └── TextInput.tsx        # Custom text textarea + demo toggle
-│   │   └── ThemeToggle/
-│   │       └── ThemeToggle.tsx      # Light/dark icon button
+│   │   ├── ThemeToggle/
+│   │   │   └── ThemeToggle.tsx      # Light/dark icon button
+│   │   └── LanguageSelector/
+│   │       └── LanguageSelector.tsx # EN / CA / ES language dropdown
 │   ├── hooks/
 │   │   ├── useSpeedReader.ts        # Core state machine
 │   │   ├── useSpeedReader.test.ts   # Hook unit tests
-│   │   └── useTheme.ts              # Theme toggle + localStorage
+│   │   ├── useTheme.ts              # Theme toggle + localStorage
+│   │   └── useLanguage.ts           # Language selection + localStorage
+│   ├── i18n/
+│   │   └── translations.ts          # All UI strings keyed by Language
 │   ├── utils/
 │   │   ├── orp.ts                   # ORP index calculation
 │   │   ├── orp.test.ts              # ORP unit tests
 │   │   ├── textParser.ts            # Raw text → string[]
 │   │   └── textParser.test.ts       # Parser unit tests
 │   ├── data/
-│   │   └── demoText.ts              # Multilingual demo paragraph
+│   │   └── demoText.ts              # Demo paragraph per language (EN / CA / ES)
 │   ├── App.tsx                      # Root component, layout
 │   ├── main.tsx                     # React entry point
 │   └── index.css                    # Tailwind base import + custom CSS
@@ -161,23 +166,73 @@ function useSpeedReader(
 
 ```typescript
 function useTheme(): {
-  theme: "light" | "dark";
-  toggle: () => void;
-};
+  theme: 'light' | 'dark'
+  toggle: () => void
+}
 ```
 
 - Reads initial value from `localStorage.getItem('theme')`.
 - Defaults to `'dark'` if no value stored.
 - On change: updates `localStorage` and toggles the `dark` class on `document.documentElement`.
 
+## 6.5. Language — `useLanguage`
+
+```typescript
+export type Language = 'en' | 'ca' | 'es'
+
+function useLanguage(): {
+  language: Language
+  setLanguage: (lang: Language) => void
+}
+```
+
+- Reads initial value from `localStorage.getItem('spritz-language')`.
+- Defaults to `'en'` if no value stored.
+- On change: persists to `localStorage`.
+- Does **not** manipulate the DOM (language is passed as data, not a DOM attribute).
+
+## 6.6. Translations — `src/i18n/translations.ts`
+
+```typescript
+export interface Translations {
+  // SpeedReader
+  idlePlaceholder: string
+  finishedMessage: string
+  // Controls
+  play: string
+  pause: string
+  restart: string
+  // ProgressBar
+  wordOf: (current: number, total: number) => string
+  // TextInput
+  changeText: string
+  hideTextPanel: string
+  textareaPlaceholder: string
+  useDemoText: string
+  // ThemeToggle
+  switchToLight: string
+  switchToDark: string
+  // Keyboard hint
+  keyboardHint: string
+}
+
+export const translations: Record<Language, Translations> = { en: {...}, ca: {...}, es: {...} }
+```
+
+All UI strings come exclusively from this object. Components receive a `t: Translations` prop from `App.tsx`; no component imports translations directly.
+
 ## 7. Component API
+
+> All components that display user-facing text receive a `t: Translations` prop.
+> This is the only source of UI strings; components never hard-code text.
 
 ### `SpeedReader`
 
 ```typescript
 interface SpeedReaderProps {
-  word: string; // current word to display
-  status: ReaderStatus;
+  word: string        // current word to display
+  status: ReaderStatus
+  t: Translations
 }
 ```
 
@@ -190,12 +245,13 @@ interface SpeedReaderProps {
 
 ```typescript
 interface ControlsProps {
-  status: ReaderStatus;
-  wpm: number;
-  onPlay: () => void;
-  onPause: () => void;
-  onRestart: () => void;
-  onWpmChange: (wpm: number) => void;
+  status: ReaderStatus
+  wpm: number
+  onPlay: () => void
+  onPause: () => void
+  onRestart: () => void
+  onWpmChange: (wpm: number) => void
+  t: Translations
 }
 ```
 
@@ -203,8 +259,9 @@ interface ControlsProps {
 
 ```typescript
 interface ProgressBarProps {
-  current: number; // 0-based index
-  total: number;
+  current: number   // 0-based index
+  total: number
+  t: Translations
 }
 ```
 
@@ -212,9 +269,10 @@ interface ProgressBarProps {
 
 ```typescript
 interface TextInputProps {
-  value: string;
-  onChange: (text: string) => void;
-  onUseDemo: () => void;
+  value: string
+  onChange: (text: string) => void
+  onUseDemo: () => void
+  t: Translations
 }
 ```
 
@@ -222,10 +280,24 @@ interface TextInputProps {
 
 ```typescript
 interface ThemeToggleProps {
-  theme: "light" | "dark";
-  onToggle: () => void;
+  theme: 'light' | 'dark'
+  onToggle: () => void
+  t: Translations
 }
 ```
+
+### `LanguageSelector`
+
+```typescript
+interface LanguageSelectorProps {
+  language: Language
+  onChange: (lang: Language) => void
+}
+```
+
+- Renders a native `<select>` dropdown with options for EN, CA, ES.
+- The browser handles the picker UI; no custom dropdown implementation needed.
+- The `<select>` is styled to match the header aesthetic (border, muted text, accent on hover/focus).
 
 ## 8. Tailwind Dark Mode Strategy
 
@@ -234,20 +306,27 @@ interface ThemeToggleProps {
 - All components use `dark:` Tailwind variants for color inversions.
 - Default = dark; light mode is the opt-in variant.
 
-## 9. Key Design Tokens (Tailwind custom theme)
+## 9. Key Design Tokens
 
-| Token        | Dark value | Light value |
-| ------------ | ---------- | ----------- |
-| Background   | `#0D0F12`  | `#F5F5F5`   |
-| Surface      | `#161A20`  | `#FFFFFF`   |
-| Text primary | `#F0F0F0`  | `#1A1A1A`   |
-| Text muted   | `#6B7280`  | `#6B7280`   |
-| ORP accent   | `#5B8DEF`  | `#3B6FD4`   |
-| Border       | `#2D3139`  | `#E0E0E0`   |
+| Token        | Dark value  | Light value |
+| ------------ | ----------- | ----------- |
+| Background   | `#09090B`   | `#FAFAFA`   |
+| Surface      | `#111113`   | `#FFFFFF`   |
+| Text primary | `#FAFAFA`   | `#09090B`   |
+| Text muted   | `#52525B`   | `#78716C`   |
+| ORP accent   | `#F59E0B`   | `#D97706`   |
+| Border       | `#27272A`   | `#E4E4E7`   |
 
 ## 10. Demo Text
 
-Located in `src/data/demoText.ts`. A single paragraph mixing English, Catalan, and Spanish that showcases a variety of word lengths (1–15+ characters) to demonstrate the ORP algorithm visually.
+Located in `src/data/demoText.ts`. Exports a `DEMO_TEXTS` record with one paragraph per language. Each paragraph showcases a variety of word lengths (1–15+ characters) to demonstrate the ORP algorithm.
+
+```typescript
+import type { Language } from '../hooks/useLanguage'
+export const DEMO_TEXTS: Record<Language, string> = { en: '...', ca: '...', es: '...' }
+```
+
+`App.tsx` selects the active demo text as `DEMO_TEXTS[language]`.
 
 ## 11. Keyboard Shortcuts
 
