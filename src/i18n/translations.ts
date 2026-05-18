@@ -22,7 +22,7 @@ export interface Translations {
 
 export const translations: Record<Language, Translations> = {
   en: {
-    idlePlaceholder: "Press play to start reading",
+    idlePlaceholder: "Click to play",
     finishedMessage: "Finished — press restart to read again",
     play: "▶ Play",
     pause: "⏸ Pause",
@@ -36,7 +36,7 @@ export const translations: Record<Language, Translations> = {
     keyboardHint: "Space · R · ← / →",
   },
   ca: {
-    idlePlaceholder: "Prem play per iniciar la lectura",
+    idlePlaceholder: "Clica per reproduir",
     finishedMessage: "Acabat — prem reinicia per tornar a llegir",
     play: "▶ Reprodueix",
     pause: "⏸ Pausa",
@@ -50,7 +50,7 @@ export const translations: Record<Language, Translations> = {
     keyboardHint: "Espai · R · ← / →",
   },
   es: {
-    idlePlaceholder: "Pulsa play para empezar a leer",
+    idlePlaceholder: "Haz clic para reproducir",
     finishedMessage: "Terminado — pulsa reiniciar para volver a leer",
     play: "▶ Reproducir",
     pause: "⏸ Pausa",

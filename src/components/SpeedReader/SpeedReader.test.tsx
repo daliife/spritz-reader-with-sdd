@@ -4,7 +4,7 @@ import { SpeedReader } from "./SpeedReader";
 import type { Translations } from "../../i18n/translations";
 
 const mockT: Translations = {
-  idlePlaceholder: "Press play to start reading",
+  idlePlaceholder: "Click to play",
   finishedMessage: "Finished — press restart to read again",
   play: "▶ Play",
   pause: "⏸ Pause",
@@ -23,7 +23,7 @@ describe("SpeedReader", () => {
     render(
       <SpeedReader word="" status="idle" t={mockT} onTogglePlay={vi.fn()} />,
     );
-    expect(screen.getByText(/press play to start/i)).toBeInTheDocument();
+    expect(screen.getByText(/click to play/i)).toBeInTheDocument();
   });
 
   it("shows completion message in finished state", () => {

@@ -1,31 +1,49 @@
-import { useState } from 'react'
-import type { Translations } from '../../i18n/translations'
+import { useState } from "react";
+import type { Translations } from "../../i18n/translations";
 
 interface TextInputProps {
-  value: string
-  isDemo: boolean
-  onChange: (text: string) => void
-  onUseDemo: () => void
-  t: Translations
+  value: string;
+  isDemo: boolean;
+  onChange: (text: string) => void;
+  onUseDemo: () => void;
+  onRestart: () => void;
+  t: Translations;
 }
 
 /**
  * Text input panel — ref: spritz-reader.plan.md §7, spec US-05, US-06
  */
-export function TextInput({ value, isDemo, onChange, onUseDemo, t }: TextInputProps) {
-  const [isOpen, setIsOpen] = useState(false)
+export function TextInput({
+  value,
+  isDemo,
+  onChange,
+  onUseDemo,
+  onRestart,
+  t,
+}: TextInputProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="w-full">
-      <button
-        onClick={() => setIsOpen((o) => !o)}
-        aria-expanded={isOpen}
-        aria-controls="text-input-panel"
-        className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
-                   underline underline-offset-2 transition-colors"
-      >
-        {isOpen ? t.hideTextPanel : t.changeText}
-      </button>
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => setIsOpen((o) => !o)}
+          aria-expanded={isOpen}
+          aria-controls="text-input-panel"
+          className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
+                     underline underline-offset-2 transition-colors"
+        >
+          {isOpen ? t.hideTextPanel : t.changeText}
+        </button>
+        <button
+          onClick={onRestart}
+          aria-label={`${t.restart} (R)`}
+          className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
+                     transition-colors"
+        >
+          {t.restart}
+        </button>
+      </div>
 
       {isOpen && (
         <div id="text-input-panel" className="mt-3 flex flex-col gap-2">
@@ -54,5 +72,5 @@ export function TextInput({ value, isDemo, onChange, onUseDemo, t }: TextInputPr
         </div>
       )}
     </div>
-  )
+  );
 }

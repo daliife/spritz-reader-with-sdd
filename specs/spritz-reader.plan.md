@@ -249,22 +249,29 @@ interface ControlsProps {
   wpm: number;
   onPlay: () => void;
   onPause: () => void;
-  onRestart: () => void;
   onWpmChange: (wpm: number) => void;
   t: Translations;
 }
 ```
+
+- Renders WPM preset buttons and the Play/Pause pill button.
+- Restart has been moved to the `TextInput` component.
 
 ### `TextInput`
 
 ```typescript
 interface TextInputProps {
   value: string;
+  isDemo: boolean;
   onChange: (text: string) => void;
   onUseDemo: () => void;
+  onRestart: () => void;
   t: Translations;
 }
 ```
+
+- Header row always shows the panel toggle ("Change text" / "Hide panel") and a Restart button side-by-side.
+- Restart is placed here because it is semantically related to session/text management.
 
 ### `ThemeToggle`
 

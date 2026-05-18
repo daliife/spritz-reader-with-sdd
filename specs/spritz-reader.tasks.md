@@ -158,3 +158,4 @@
 - [x] **T-52** Expand demo texts from 1 paragraph to 3 paragraphs per language for a longer reading session
 - [x] **T-53** Set Vite dev server port to 3000 (`server: { port: 3000 }` in `vite.config.ts`)
 - [x] **T-54** Make SpeedReader card clickable for play/pause (ref: spec US-02) — add `onTogglePlay: () => void` prop to `SpeedReader`; container is `cursor-pointer` when not finished; `App.tsx` passes handler that calls `play()` or `pause()` based on current status
+- [x] **T-55** Redesign control layout (ref: spec US-02, US-05) — update `idlePlaceholder` text to “Click to play” variants; remove Restart from `Controls`; add `onRestart` prop to `TextInput` with button always visible in header row alongside panel toggle; update `App.tsx`, tests, and component APIs accordingly

@@ -24,7 +24,6 @@ const defaultProps = {
   wpm: 350,
   onPlay: vi.fn(),
   onPause: vi.fn(),
-  onRestart: vi.fn(),
   onWpmChange: vi.fn(),
   t: mockT,
 };
@@ -52,13 +51,6 @@ describe("Controls", () => {
     render(<Controls {...defaultProps} status="playing" onPause={onPause} />);
     await userEvent.click(screen.getByRole("button", { name: /pause/i }));
     expect(onPause).toHaveBeenCalledOnce();
-  });
-
-  it("fires onRestart when Restart is clicked", async () => {
-    const onRestart = vi.fn();
-    render(<Controls {...defaultProps} onRestart={onRestart} />);
-    await userEvent.click(screen.getByRole("button", { name: /restart/i }));
-    expect(onRestart).toHaveBeenCalledOnce();
   });
 
   it("renders all 5 WPM preset buttons", () => {

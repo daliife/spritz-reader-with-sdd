@@ -6,7 +6,6 @@ interface ControlsProps {
   wpm: number;
   onPlay: () => void;
   onPause: () => void;
-  onRestart: () => void;
   onWpmChange: (wpm: number) => void;
   t: Translations;
 }
@@ -21,7 +20,6 @@ export function Controls({
   wpm,
   onPlay,
   onPause,
-  onRestart,
   onWpmChange,
   t,
 }: ControlsProps) {
@@ -60,17 +58,8 @@ export function Controls({
         </span>
       </div>
 
-      {/* Play / Pause / Restart */}
+      {/* Play / Pause */}
       <div className="flex items-center gap-5">
-        <button
-          onClick={onRestart}
-          aria-label={`${t.restart} (R)`}
-          className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
-                     transition-colors"
-        >
-          {t.restart}
-        </button>
-
         <button
           onClick={isPlaying ? onPause : onPlay}
           disabled={isFinished}

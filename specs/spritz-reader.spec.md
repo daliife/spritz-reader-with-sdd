@@ -42,7 +42,8 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 
 - [ ] A Play/Pause button toggles playback. When paused, the current word stays on screen.
 - [ ] Clicking anywhere on the reader display card also toggles play/pause (idle → play, playing → pause, paused → play). Has no effect when finished.
-- [ ] A Restart button resets the reader to the first word.
+- [ ] The reader card shows a "click to play" hint in the idle state.
+- [ ] A Restart button is located in the text management area (next to the text panel toggle), always visible.
 - [ ] Playback state is clearly communicated via the button label/icon.
 - [ ] When the last word is reached, playback stops automatically and the finished state is shown.
 
@@ -69,6 +70,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 
 - [ ] A textarea is available for the user to input custom text.
 - [ ] A toggle/button switches between demo text and custom text.
+- [ ] A Restart button is always visible alongside the text panel toggle, so the user can restart the reader from the same area used to manage text.
 - [ ] When custom text is empty, the app falls back to demo text.
 - [ ] Changing text resets the reader to the first word.
 

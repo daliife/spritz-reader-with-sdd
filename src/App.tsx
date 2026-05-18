@@ -115,7 +115,6 @@ export default function App() {
             wpm={wpm}
             onPlay={play}
             onPause={pause}
-            onRestart={restart}
             onWpmChange={setWpm}
             t={t}
           />
@@ -126,6 +125,7 @@ export default function App() {
             isDemo={isUsingDemo}
             onChange={handleTextChange}
             onUseDemo={handleUseDemo}
+            onRestart={restart}
             t={t}
           />
         </div>
