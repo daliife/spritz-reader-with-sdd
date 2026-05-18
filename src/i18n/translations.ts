@@ -8,8 +8,6 @@ export interface Translations {
   play: string;
   pause: string;
   restart: string;
-  // ProgressBar
-  wordOf: (current: number, total: number) => string;
   // TextInput
   changeText: string;
   hideTextPanel: string;
@@ -29,7 +27,6 @@ export const translations: Record<Language, Translations> = {
     play: "▶ Play",
     pause: "⏸ Pause",
     restart: "↺ Restart",
-    wordOf: (c, t) => `Word ${c} of ${t}`,
     changeText: "Change text ↓",
     hideTextPanel: "Hide text panel ↑",
     textareaPlaceholder: "Paste your own text here…",
@@ -44,7 +41,6 @@ export const translations: Record<Language, Translations> = {
     play: "▶ Reprodueix",
     pause: "⏸ Pausa",
     restart: "↺ Reinicia",
-    wordOf: (c, t) => `Paraula ${c} de ${t}`,
     changeText: "Canvia el text ↓",
     hideTextPanel: "Amaga el panell ↑",
     textareaPlaceholder: "Enganxa el teu text aquí…",
@@ -59,7 +55,6 @@ export const translations: Record<Language, Translations> = {
     play: "▶ Reproducir",
     pause: "⏸ Pausa",
     restart: "↺ Reiniciar",
-    wordOf: (c, t) => `Palabra ${c} de ${t}`,
     changeText: "Cambiar texto ↓",
     hideTextPanel: "Ocultar panel ↑",
     textareaPlaceholder: "Pega tu texto aquí…",

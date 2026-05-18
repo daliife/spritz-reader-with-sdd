@@ -1,81 +1,84 @@
-import { useEffect, useState } from 'react'
-import { SpeedReader } from './components/SpeedReader/SpeedReader'
-import { Controls } from './components/Controls/Controls'
-import { ProgressBar } from './components/ProgressBar/ProgressBar'
-import { TextInput } from './components/TextInput/TextInput'
-import { ThemeToggle } from './components/ThemeToggle/ThemeToggle'
-import { LanguageSelector } from './components/LanguageSelector/LanguageSelector'
-import { useSpeedReader } from './hooks/useSpeedReader'
-import { useTheme } from './hooks/useTheme'
-import { useLanguage } from './hooks/useLanguage'
-import type { Language } from './hooks/useLanguage'
-import { translations } from './i18n/translations'
-import { DEMO_TEXTS } from './data/demoText'
+import { useEffect, useState } from "react";
+import { SpeedReader } from "./components/SpeedReader/SpeedReader";
+import { Controls } from "./components/Controls/Controls";
+import { TextInput } from "./components/TextInput/TextInput";
+import { ThemeToggle } from "./components/ThemeToggle/ThemeToggle";
+import { LanguageSelector } from "./components/LanguageSelector/LanguageSelector";
+import { useSpeedReader } from "./hooks/useSpeedReader";
+import { useTheme } from "./hooks/useTheme";
+import { useLanguage } from "./hooks/useLanguage";
+import type { Language } from "./hooks/useLanguage";
+import { translations } from "./i18n/translations";
+import { DEMO_TEXTS } from "./data/demoText";
 
 /**
  * Root component — ref: spritz-reader.plan.md §5 (Assembly), spec US-08, US-09
  */
 export default function App() {
-  const { theme, toggle: toggleTheme } = useTheme()
-  const { language, setLanguage } = useLanguage()
+  const { theme, toggle: toggleTheme } = useTheme();
+  const { language, setLanguage } = useLanguage();
 
   // Track whether the reader is showing the built-in demo text.
   // If so, language changes will automatically switch to the demo text in the new language.
-  const [isUsingDemo, setIsUsingDemo] = useState(true)
-  const [text, setText] = useState(() => DEMO_TEXTS[language])
+  const [isUsingDemo, setIsUsingDemo] = useState(true);
+  const [text, setText] = useState(() => DEMO_TEXTS[language]);
 
-  const t = translations[language]
+  const t = translations[language];
 
-  const { words, currentIndex, currentWord, wpm, status, play, pause, restart, setWpm } =
-    useSpeedReader(text)
+  const { currentWord, wpm, status, play, pause, restart, setWpm } =
+    useSpeedReader(text);
 
   // When language changes: if showing demo, swap to new language's demo paragraph
   function handleLanguageChange(lang: Language) {
-    setLanguage(lang)
+    setLanguage(lang);
     if (isUsingDemo) {
-      setText(DEMO_TEXTS[lang])
+      setText(DEMO_TEXTS[lang]);
     }
   }
 
   function handleTextChange(newText: string) {
-    setText(newText)
-    setIsUsingDemo(false)
+    setText(newText);
+    setIsUsingDemo(false);
   }
 
   function handleUseDemo() {
-    setText(DEMO_TEXTS[language])
-    setIsUsingDemo(true)
+    setText(DEMO_TEXTS[language]);
+    setIsUsingDemo(true);
   }
 
   // Keyboard shortcuts — ref: spec US-08
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement) return
+      if (
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLInputElement
+      )
+        return;
 
       switch (e.key) {
-        case ' ':
-          e.preventDefault()
-          status === 'playing' ? pause() : play()
-          break
-        case 'r':
-        case 'R':
-          e.preventDefault()
-          restart()
-          break
-        case 'ArrowLeft':
-          e.preventDefault()
-          setWpm(wpm - 50)
-          break
-        case 'ArrowRight':
-          e.preventDefault()
-          setWpm(wpm + 50)
-          break
+        case " ":
+          e.preventDefault();
+          status === "playing" ? pause() : play();
+          break;
+        case "r":
+        case "R":
+          e.preventDefault();
+          restart();
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          setWpm(wpm - 50);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          setWpm(wpm + 50);
+          break;
       }
     }
 
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [status, play, pause, restart, setWpm, wpm])
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [status, play, pause, restart, setWpm, wpm]);
 
   return (
     <div className="min-h-screen flex flex-col bg-(--color-bg) text-(--color-text-primary) transition-colors duration-200">
@@ -85,7 +88,10 @@ export default function App() {
           Spritz Reader
         </h1>
         <div className="flex items-center gap-2">
-          <LanguageSelector language={language} onChange={handleLanguageChange} />
+          <LanguageSelector
+            language={language}
+            onChange={handleLanguageChange}
+          />
           <ThemeToggle theme={theme} onToggle={toggleTheme} t={t} />
         </div>
       </header>
@@ -97,9 +103,6 @@ export default function App() {
           <div className="rounded-xl overflow-hidden border border-(--color-border) bg-(--color-surface)">
             <SpeedReader word={currentWord} status={status} t={t} />
           </div>
-
-          {/* Progress */}
-          <ProgressBar current={currentIndex} total={words.length} t={t} />
 
           {/* Controls */}
           <Controls
@@ -123,6 +126,5 @@ export default function App() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-

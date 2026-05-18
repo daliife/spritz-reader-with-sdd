@@ -28,8 +28,9 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 **Acceptance Criteria:**
 
 - [ ] Each word is split into three parts: characters before ORP, the ORP character, characters after ORP.
-- [ ] The ORP character is rendered in a distinct accent color (amber).
-- [ ] A vertical focal guide line is drawn at the ORP position.
+- [ ] The ORP character is rendered in a distinct accent color (blue).
+- [ ] A vertical focal guide line is drawn at the ORP position, aligned so the pivot letter is always centered at the same fixed point.
+- [ ] The pivot letter is always positioned at the horizontal center of the display, regardless of word length (using ch-based offset in a monospaced font).
 - [ ] The word changes automatically at the configured WPM rate during playback.
 - [ ] The display font is monospaced so that ORP alignment is stable.
 
@@ -55,14 +56,9 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - [ ] Changing speed during playback takes effect immediately without restarting.
 - [ ] Keyboard arrows (← / →) also adjust WPM in steps of 50 within the 100–1000 range.
 
-### US-04 — Progress Indicator
+### US-04 — ~~Progress Indicator~~ _(removed)_
 
-> As a user, I want to see my progress through the text so I know how much is left.
-
-**Acceptance Criteria:**
-
-- [ ] A progress bar visually fills as words are consumed.
-- [ ] A counter showing "word N of M" is displayed.
+> Removed in favour of a cleaner, distraction-free interface. The progress bar and word counter have been eliminated.
 
 ### US-05 — Custom Text Input
 
@@ -124,8 +120,8 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 ## 5. Design Requirements
 
 - **Style**: Minimalist; dark background by default (near-black `#09090B`), high-contrast white text.
-- **ORP accent color**: Amber (`#F59E0B` dark / `#D97706` light).
-- **Typography**: Monospaced font for the word display (e.g., `JetBrains Mono`, `Courier New` fallback).
+- **ORP accent color**: Blue (`#6481F8` dark / `#4A6CF7` light).
+- **Typography**: Monospaced font for the word display (`JetBrains Mono`, `Courier New` fallback). Each character is exactly `1ch` wide, enabling precise pivot centering.
 - **Layout**: Centered single-column; max-width constrained (~900px) for comfortable reading.
 - **Responsive**: Functional on mobile (≥ 375px wide).
 - **Accessibility**: All interactive controls must have ARIA labels; focus styles must be visible.

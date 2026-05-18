@@ -65,9 +65,7 @@
   - Five WPM preset buttons: 150 / 250 / 350 / 500 / 750 (ref: US-03); active preset highlighted
   - Restart button (ref: US-02)
   - All buttons have `aria-label`
-- [x] **T-18** Implement `src/components/ProgressBar/ProgressBar.tsx`
-  - Filled bar: `width = (current / total) * 100%`
-  - Text counter: `"Word N of M"` (ref: US-04)
+- [-] **T-18** ~~Implement `src/components/ProgressBar/ProgressBar.tsx`~~ _(removed — see T-46)_
 - [x] **T-19** Implement `src/components/TextInput/TextInput.tsx`
   - `<textarea>` for custom text (ref: US-05)
   - "Use demo text" button resets to demo paragraph (ref: US-06)
@@ -139,10 +137,23 @@
 - [x] **T-36** Create `src/components/LanguageSelector/LanguageSelector.tsx` — native `<select>` dropdown for EN / CA / ES
 - [x] **T-37** Update `src/components/SpeedReader/SpeedReader.tsx` — add `t: Translations` prop; use `t.idlePlaceholder` and `t.finishedMessage`
 - [x] **T-38** Update `src/components/Controls/Controls.tsx` — add `t: Translations` prop; use `t.play`, `t.pause`, `t.restart`, `t.keyboardHint`
-- [x] **T-39** Update `src/components/ProgressBar/ProgressBar.tsx` — add `t: Translations` prop; use `t.wordOf(current, total)`
+- [-] **T-39** ~~Update `src/components/ProgressBar/ProgressBar.tsx`~~ _(removed — see T-46)_
 - [x] **T-40** Update `src/components/TextInput/TextInput.tsx` — add `t: Translations` prop; use `t.changeText`, `t.hideTextPanel`, `t.textareaPlaceholder`, `t.useDemoText`
 - [x] **T-41** Update `src/components/ThemeToggle/ThemeToggle.tsx` — add `t: Translations` prop; use `t.switchToLight`, `t.switchToDark`
 - [x] **T-42** Update `src/App.tsx` — add `useLanguage`; compute `t = translations[language]`; add `LanguageSelector` to header; when language changes and demo is active, switch demo text; track `isUsingDemo` flag
 - [x] **T-43** Update unit tests that assert hard-coded English strings — pass a mock `t` prop with expected strings
 - [x] **T-44** Run `pnpm vitest run` — all tests pass
 - [x] **T-45** Run `pnpm build` — no TypeScript errors
+
+---
+
+## Phase 10 — Refinements
+
+- [x] **T-46** Remove `ProgressBar` component (spec US-04 removed) — delete `src/components/ProgressBar/`, remove import and JSX from `App.tsx`, remove `wordOf` from `Translations` interface and all language objects
+- [x] **T-47** Fix dark/light mode: Tailwind v4 requires `(--color-*)` parenthesis syntax (not `[--color-*]`) for CSS variable references; updated all 44 occurrences across all TSX files
+- [x] **T-48** Change ORP accent colour from amber to blue (`#4A6CF7` light / `#6481F8` dark); update button text to `text-white` for contrast
+- [x] **T-49** Fix ORP pivot centering: word positioned with `transform: translateX(calc(-N ch - 0.5ch))` so pivot letter is always at the horizontal midpoint regardless of word length
+- [x] **T-50** Replace emoji theme toggle icons (☀️/🌙) with inline SVG (Feather Icons style, `strokeWidth="2"`, `currentColor`)
+- [x] **T-51** Add FOUC prevention: inline `<script>` in `index.html` applies `.dark` class synchronously before React mounts; `body` gets `background-color: var(--color-bg)`
+- [x] **T-52** Expand demo texts from 1 paragraph to 3 paragraphs per language for a longer reading session
+- [x] **T-53** Set Vite dev server port to 3000 (`server: { port: 3000 }` in `vite.config.ts`)

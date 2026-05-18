@@ -30,8 +30,6 @@ spritz-reader-with-sdd/
 │   │   ├── Controls/
 │   │   │   ├── Controls.tsx         # Play/Pause, WPM, Restart
 │   │   │   └── Controls.test.tsx
-│   │   ├── ProgressBar/
-│   │   │   └── ProgressBar.tsx      # Progress fill + word counter
 │   │   ├── TextInput/
 │   │   │   └── TextInput.tsx        # Custom text textarea + demo toggle
 │   │   ├── ThemeToggle/
@@ -202,8 +200,6 @@ export interface Translations {
   play: string
   pause: string
   restart: string
-  // ProgressBar
-  wordOf: (current: number, total: number) => string
   // TextInput
   changeText: string
   hideTextPanel: string
@@ -255,16 +251,6 @@ interface ControlsProps {
 }
 ```
 
-### `ProgressBar`
-
-```typescript
-interface ProgressBarProps {
-  current: number; // 0-based index
-  total: number;
-  t: Translations;
-}
-```
-
 ### `TextInput`
 
 ```typescript
@@ -303,8 +289,9 @@ interface LanguageSelectorProps {
 
 - `darkMode: 'class'` (Tailwind v4: set in CSS with `@custom-variant dark (&:where(.dark, .dark *))` or equivalent).
 - `useTheme` adds/removes `class="dark"` on `<html>`.
-- All components use `dark:` Tailwind variants for color inversions.
-- Default = dark; light mode is the opt-in variant.
+- All components use CSS custom properties (`var(--color-*)`) for all colours; no hard-coded hex values in components.
+- CSS variables are defined in `:root` (light) and `.dark` (dark) selectors in `index.css`.
+- Tailwind arbitrary values use the `(--color-*)` parenthesis syntax (generates `var(--color-*)`).
 
 ## 9. Key Design Tokens
 
@@ -314,7 +301,7 @@ interface LanguageSelectorProps {
 | Surface      | `#111113`  | `#FFFFFF`   |
 | Text primary | `#FAFAFA`  | `#09090B`   |
 | Text muted   | `#52525B`  | `#78716C`   |
-| ORP accent   | `#F59E0B`  | `#D97706`   |
+| ORP accent   | `#6481F8`  | `#4A6CF7`   |
 | Border       | `#27272A`  | `#E4E4E7`   |
 
 ## 10. Demo Text
