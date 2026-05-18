@@ -68,7 +68,7 @@ export function Controls({
           className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
                      transition-colors"
         >
-          ↺ {t.restart}
+          {t.restart}
         </button>
 
         <button

@@ -43,7 +43,11 @@ export function SpeedReader({ word, status, t }: SpeedReaderProps) {
 
       {(status === "playing" || status === "paused") && (
         <span
-          className="font-mono text-6xl font-bold tracking-wide select-none"
+          className="absolute top-1/2 font-mono text-6xl font-bold select-none whitespace-nowrap"
+          style={{
+            left: "50%",
+            transform: `translate(calc(-${left.length}ch - 0.5ch), -50%)`,
+          }}
           aria-label={word}
         >
           <span className="text-(--color-text-primary)">{left}</span>
