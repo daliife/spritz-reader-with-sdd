@@ -41,6 +41,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 **Acceptance Criteria:**
 
 - [ ] A Play/Pause button toggles playback. When paused, the current word stays on screen.
+- [ ] Clicking anywhere on the reader display card also toggles play/pause (idle → play, playing → pause, paused → play). Has no effect when finished.
 - [ ] A Restart button resets the reader to the first word.
 - [ ] Playback state is clearly communicated via the button label/icon.
 - [ ] When the last word is reached, playback stops automatically and the finished state is shown.

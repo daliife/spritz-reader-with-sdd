@@ -6,6 +6,7 @@ interface SpeedReaderProps {
   word: string;
   status: ReaderStatus;
   t: Translations;
+  onTogglePlay: () => void;
 }
 
 /**
@@ -13,15 +14,42 @@ interface SpeedReaderProps {
  * Renders a word split into left / ORP pivot (accent) / right.
  * A vertical focal guide line marks the ORP position.
  */
-export function SpeedReader({ word, status, t }: SpeedReaderProps) {
+export function SpeedReader({
+  word,
+  status,
+  t,
+  onTogglePlay,
+}: SpeedReaderProps) {
   const { left, pivot, right } = splitWordAtOrp(word);
+  const isInteractive = status !== "finished";
 
   return (
     <div
-      className="relative flex items-center justify-center w-full h-44 overflow-hidden bg-(--color-surface)"
-      role="region"
-      aria-label="Speed reader display"
+      className={[
+        "relative flex items-center justify-center w-full h-44 overflow-hidden bg-(--color-surface)",
+        isInteractive ? "cursor-pointer select-none" : "",
+      ].join(" ")}
+      role={isInteractive ? "button" : "region"}
+      aria-label={
+        isInteractive
+          ? status === "playing"
+            ? "Pause"
+            : "Play"
+          : "Speed reader display"
+      }
       aria-live="off"
+      tabIndex={isInteractive ? 0 : undefined}
+      onClick={isInteractive ? onTogglePlay : undefined}
+      onKeyDown={
+        isInteractive
+          ? (e) => {
+              if (e.key === " " || e.key === "Enter") {
+                e.preventDefault();
+                onTogglePlay();
+              }
+            }
+          : undefined
+      }
     >
       {/* Vertical focal guide */}
       <div

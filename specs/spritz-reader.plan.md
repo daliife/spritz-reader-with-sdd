@@ -229,11 +229,15 @@ interface SpeedReaderProps {
   word: string; // current word to display
   status: ReaderStatus;
   t: Translations;
+  onTogglePlay: () => void; // called when card is clicked (idle/playing/paused only)
 }
 ```
 
 - Renders left/pivot/right spans.
-- The container has a centered vertical line (`::before` pseudo-element or a `<div>`) at the ORP pivot column.
+- The container has a centered vertical line at the ORP pivot column.
+- When `status === 'idle'` or `'paused'` the card is `cursor-pointer` and shows a hover overlay; clicking calls `onTogglePlay`.
+- When `status === 'playing'` the card is `cursor-pointer`; clicking calls `onTogglePlay` to pause.
+- When `status === 'finished'` the card is not interactive.
 - When `status === 'idle'` shows a placeholder message.
 - When `status === 'finished'` shows a completion message.
 

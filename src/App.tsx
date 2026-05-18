@@ -101,7 +101,12 @@ export default function App() {
         <div className="w-full max-w-2xl flex flex-col gap-8">
           {/* Reader display */}
           <div className="rounded-xl overflow-hidden border border-(--color-border) bg-(--color-surface)">
-            <SpeedReader word={currentWord} status={status} t={t} />
+            <SpeedReader
+              word={currentWord}
+              status={status}
+              t={t}
+              onTogglePlay={status === "playing" ? pause : play}
+            />
           </div>
 
           {/* Controls */}

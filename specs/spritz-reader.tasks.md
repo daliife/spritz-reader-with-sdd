@@ -157,3 +157,4 @@
 - [x] **T-51** Add FOUC prevention: inline `<script>` in `index.html` applies `.dark` class synchronously before React mounts; `body` gets `background-color: var(--color-bg)`
 - [x] **T-52** Expand demo texts from 1 paragraph to 3 paragraphs per language for a longer reading session
 - [x] **T-53** Set Vite dev server port to 3000 (`server: { port: 3000 }` in `vite.config.ts`)
+- [x] **T-54** Make SpeedReader card clickable for play/pause (ref: spec US-02) — add `onTogglePlay: () => void` prop to `SpeedReader`; container is `cursor-pointer` when not finished; `App.tsx` passes handler that calls `play()` or `pause()` based on current status
