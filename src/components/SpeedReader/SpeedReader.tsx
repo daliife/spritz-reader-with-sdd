@@ -1,11 +1,11 @@
 import { splitWordAtOrp } from "../../utils/orp";
 import type { ReaderStatus } from "../../hooks/useSpeedReader";
-import type { Translations } from '../../i18n/translations'
+import type { Translations } from "../../i18n/translations";
 
 interface SpeedReaderProps {
-  word: string
-  status: ReaderStatus
-  t: Translations
+  word: string;
+  status: ReaderStatus;
+  t: Translations;
 }
 
 /**
@@ -29,19 +29,19 @@ export function SpeedReader({ word, status, t }: SpeedReaderProps) {
         aria-hidden="true"
       />
 
-      {status === 'idle' && (
+      {status === "idle" && (
         <span className="text-(--color-text-muted) text-base select-none">
           {t.idlePlaceholder}
         </span>
       )}
 
-      {status === 'finished' && (
+      {status === "finished" && (
         <span className="text-(--color-text-muted) text-base select-none">
           {t.finishedMessage}
         </span>
       )}
 
-      {(status === 'playing' || status === 'paused') && (
+      {(status === "playing" || status === "paused") && (
         <span
           className="font-mono text-6xl font-bold tracking-wide select-none"
           aria-label={word}
@@ -52,5 +52,5 @@ export function SpeedReader({ word, status, t }: SpeedReaderProps) {
         </span>
       )}
     </div>
-  )
+  );
 }

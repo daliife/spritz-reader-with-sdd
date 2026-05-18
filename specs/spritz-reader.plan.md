@@ -166,9 +166,9 @@ function useSpeedReader(
 
 ```typescript
 function useTheme(): {
-  theme: 'light' | 'dark'
-  toggle: () => void
-}
+  theme: "light" | "dark";
+  toggle: () => void;
+};
 ```
 
 - Reads initial value from `localStorage.getItem('theme')`.
@@ -178,12 +178,12 @@ function useTheme(): {
 ## 6.5. Language — `useLanguage`
 
 ```typescript
-export type Language = 'en' | 'ca' | 'es'
+export type Language = "en" | "ca" | "es";
 
 function useLanguage(): {
-  language: Language
-  setLanguage: (lang: Language) => void
-}
+  language: Language;
+  setLanguage: (lang: Language) => void;
+};
 ```
 
 - Reads initial value from `localStorage.getItem('spritz-language')`.
@@ -230,9 +230,9 @@ All UI strings come exclusively from this object. Components receive a `t: Trans
 
 ```typescript
 interface SpeedReaderProps {
-  word: string        // current word to display
-  status: ReaderStatus
-  t: Translations
+  word: string; // current word to display
+  status: ReaderStatus;
+  t: Translations;
 }
 ```
 
@@ -245,13 +245,13 @@ interface SpeedReaderProps {
 
 ```typescript
 interface ControlsProps {
-  status: ReaderStatus
-  wpm: number
-  onPlay: () => void
-  onPause: () => void
-  onRestart: () => void
-  onWpmChange: (wpm: number) => void
-  t: Translations
+  status: ReaderStatus;
+  wpm: number;
+  onPlay: () => void;
+  onPause: () => void;
+  onRestart: () => void;
+  onWpmChange: (wpm: number) => void;
+  t: Translations;
 }
 ```
 
@@ -259,9 +259,9 @@ interface ControlsProps {
 
 ```typescript
 interface ProgressBarProps {
-  current: number   // 0-based index
-  total: number
-  t: Translations
+  current: number; // 0-based index
+  total: number;
+  t: Translations;
 }
 ```
 
@@ -269,10 +269,10 @@ interface ProgressBarProps {
 
 ```typescript
 interface TextInputProps {
-  value: string
-  onChange: (text: string) => void
-  onUseDemo: () => void
-  t: Translations
+  value: string;
+  onChange: (text: string) => void;
+  onUseDemo: () => void;
+  t: Translations;
 }
 ```
 
@@ -280,9 +280,9 @@ interface TextInputProps {
 
 ```typescript
 interface ThemeToggleProps {
-  theme: 'light' | 'dark'
-  onToggle: () => void
-  t: Translations
+  theme: "light" | "dark";
+  onToggle: () => void;
+  t: Translations;
 }
 ```
 
@@ -290,8 +290,8 @@ interface ThemeToggleProps {
 
 ```typescript
 interface LanguageSelectorProps {
-  language: Language
-  onChange: (lang: Language) => void
+  language: Language;
+  onChange: (lang: Language) => void;
 }
 ```
 
@@ -308,22 +308,26 @@ interface LanguageSelectorProps {
 
 ## 9. Key Design Tokens
 
-| Token        | Dark value  | Light value |
-| ------------ | ----------- | ----------- |
-| Background   | `#09090B`   | `#FAFAFA`   |
-| Surface      | `#111113`   | `#FFFFFF`   |
-| Text primary | `#FAFAFA`   | `#09090B`   |
-| Text muted   | `#52525B`   | `#78716C`   |
-| ORP accent   | `#F59E0B`   | `#D97706`   |
-| Border       | `#27272A`   | `#E4E4E7`   |
+| Token        | Dark value | Light value |
+| ------------ | ---------- | ----------- |
+| Background   | `#09090B`  | `#FAFAFA`   |
+| Surface      | `#111113`  | `#FFFFFF`   |
+| Text primary | `#FAFAFA`  | `#09090B`   |
+| Text muted   | `#52525B`  | `#78716C`   |
+| ORP accent   | `#F59E0B`  | `#D97706`   |
+| Border       | `#27272A`  | `#E4E4E7`   |
 
 ## 10. Demo Text
 
 Located in `src/data/demoText.ts`. Exports a `DEMO_TEXTS` record with one paragraph per language. Each paragraph showcases a variety of word lengths (1–15+ characters) to demonstrate the ORP algorithm.
 
 ```typescript
-import type { Language } from '../hooks/useLanguage'
-export const DEMO_TEXTS: Record<Language, string> = { en: '...', ca: '...', es: '...' }
+import type { Language } from "../hooks/useLanguage";
+export const DEMO_TEXTS: Record<Language, string> = {
+  en: "...",
+  ca: "...",
+  es: "...",
+};
 ```
 
 `App.tsx` selects the active demo text as `DEMO_TEXTS[language]`.

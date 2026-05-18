@@ -1,4 +1,4 @@
-import type { Language } from '../hooks/useLanguage'
+import type { Language } from "../hooks/useLanguage";
 
 /**
  * Demo paragraphs — one per language — ref: spritz-reader.plan.md §10, spec US-06
@@ -22,5 +22,4 @@ La recerca científica suggereix que una pràctica enfocada de només quinze min
 El cerebro humano es extraordinariamente adaptable. Cuando eliminas el hábito de subvocalizar — pronunciar interiormente cada palabra mientras lees — la velocidad de procesamiento puede aumentar de forma notable. La mayoría de personas lee entre 200 y 300 palabras por minuto con los métodos tradicionales. Los lectores rápidos suelen superar las 500 palabras por minuto manteniendo niveles de comprensión muy elevados.
 
 La investigación científica sugiere que una práctica enfocada de tan solo quince minutos al día puede producir mejoras medibles en apenas dos semanas. La clave es la constancia. Empieza a un ritmo cómodo, aumenta gradualmente la velocidad y deja que tu cerebro construya nuevos caminos neuronales para el reconocimiento rápido del texto. Con el tiempo, lo que antes parecía imposiblemente rápido se convierte en tu nueva normalidad.`,
-}
-;
+};

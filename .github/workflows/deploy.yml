@@ -8,7 +8,7 @@ on:
 # Grant GITHUB_TOKEN the permissions needed by deploy-pages
 permissions:
   contents: read
-  pages:    write
+  pages: write
   id-token: write
 
 # Only one deployment at a time; skip queued runs but finish in-progress ones
