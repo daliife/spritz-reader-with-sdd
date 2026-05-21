@@ -141,9 +141,10 @@ export function SpeedReader({
             transform: `translate(calc(-${left.length}ch - 0.5ch), -50%)`,
             // Scale font size so the longest half of the word never overflows the panel.
             // 83vw / scalingLength fits the word from 360 px mobile to max-w-2xl desktop.
-            fontSize: `clamp(1.5rem, ${
+            // Cap at 3.5rem: the exact size where a 10-char tail fits in max-w-2xl (672px).
+            fontSize: `clamp(1.25rem, ${
               Math.round(8300 / Math.max(right.length, left.length, 1)) / 100
-            }vw, 6rem)`,
+            }vw, 3.5rem)`,
           }}
           aria-label={word}
         >
