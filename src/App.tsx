@@ -154,7 +154,7 @@ export default function App() {
           </div>
           <h1 className="text-base font-bold tracking-tight">Spritz Reader</h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <LanguageSelector
             language={language}
             onChange={handleLanguageChange}
@@ -169,9 +169,12 @@ export default function App() {
           {/* Intro */}
           <div className="text-center animate-fade-up">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter leading-tight">
-              {t.appTagline}
+              <span className="block">{t.appTagline}</span>
+              <span className="block text-(--color-accent)">
+                {t.appTaglineEmphasis}
+              </span>
             </h2>
-            <p className="mt-3 text-sm md:text-base text-(--color-text-muted) max-w-sm md:max-w-md mx-auto leading-relaxed">
+            <p className="mt-3 text-base md:text-lg text-(--color-text-muted) leading-relaxed">
               {t.appDescription}
             </p>
           </div>
@@ -179,12 +182,12 @@ export default function App() {
           {/* Reader display */}
           <div
             className={[
-              "rounded-2xl overflow-hidden border transition-colors duration-300 animate-fade-up",
+              "rounded-2xl overflow-hidden border transition-colors duration-300 animate-fade-up [box-shadow:var(--shadow-card)]",
               status === "playing"
                 ? "border-(--color-accent)"
                 : status === "paused"
                   ? "border-(--color-accent)/60"
-                  : "border-(--color-border) hover:border-(--color-accent)",
+                  : "border-(--color-border)",
             ].join(" ")}
             style={{ animationDelay: "80ms" }}
           >

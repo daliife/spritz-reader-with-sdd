@@ -20,9 +20,9 @@ export function ThemeToggle({ theme, onToggle, t }: ThemeToggleProps) {
       onClick={onToggle}
       aria-label={label}
       title={label}
-      className="w-9 h-9 rounded flex items-center justify-center
-                 text-(--color-text-muted) hover:text-(--color-text-primary)
-                 border border-(--color-border) hover:border-(--color-accent)
+      className="w-9 h-9 rounded-full flex items-center justify-center
+                 bg-(--color-surface) border border-(--color-border)
+                 text-(--color-text-muted) hover:text-(--color-accent) hover:border-(--color-accent)
                  transition-colors"
     >
       {isDark ? (

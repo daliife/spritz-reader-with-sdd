@@ -13,28 +13,34 @@ const LANGUAGES: { code: Language; label: string }[] = [
 
 /**
  * Language selector — ref: spritz-reader.plan.md §7, spec US-09
- * Renders a native <select> dropdown so the browser handles the picker UI.
+ * Segmented pill control — one button per locale.
  */
 export function LanguageSelector({
   language,
   onChange,
 }: LanguageSelectorProps) {
   return (
-    <select
-      value={language}
-      onChange={(e) => onChange(e.target.value as Language)}
+    <div
+      role="group"
       aria-label="Select language"
-      className="h-9 text-xs font-medium rounded-md border border-(--color-border)
-                 bg-(--color-surface) text-(--color-text-muted)
-                 px-2 cursor-pointer transition-colors
-                 hover:border-(--color-accent) hover:text-(--color-text-primary)
-                 focus:outline-none focus:border-(--color-accent)"
+      className="flex h-9 items-center bg-(--color-surface) border border-(--color-border) rounded-full p-0.5 gap-0.5"
     >
       {LANGUAGES.map(({ code, label }) => (
-        <option key={code} value={code}>
+        <button
+          key={code}
+          onClick={() => onChange(code)}
+          aria-label={`${label} language`}
+          aria-pressed={language === code}
+          className={[
+            "px-3 py-2 text-xs font-semibold rounded-full transition-colors",
+            language === code
+              ? "bg-(--color-accent) text-white shadow-sm"
+              : "text-(--color-text-muted) hover:text-(--color-text-primary)",
+          ].join(" ")}
+        >
           {label}
-        </option>
+        </button>
       ))}
-    </select>
+    </div>
   );
 }

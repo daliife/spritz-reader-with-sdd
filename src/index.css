@@ -19,6 +19,8 @@
   --color-text-muted: #78716c;
   --color-accent: #4a6cf7;
   --color-border: #e4e4e7;
+  --shadow-card: 0 0 48px -8px
+    color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
 /* Dark theme — applied when <html class="dark"> */

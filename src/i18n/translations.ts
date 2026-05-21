@@ -3,6 +3,7 @@ export type Language = "en" | "ca" | "es";
 export interface Translations {
   // App intro
   appTagline: string;
+  appTaglineEmphasis: string;
   appDescription: string;
   // SpeedReader display
   idlePlaceholder: string;
@@ -25,7 +26,8 @@ export interface Translations {
 
 export const translations: Record<Language, Translations> = {
   en: {
-    appTagline: "Read faster, one word at a time.",
+    appTagline: "Read faster,",
+    appTaglineEmphasis: "one word at a time.",
     appDescription:
       "Each word appears at a fixed point — focus on the highlighted letter to keep your reading flow.",
     idlePlaceholder: "Click to play",
@@ -42,7 +44,8 @@ export const translations: Record<Language, Translations> = {
     keyboardHint: "Space · R · ← / →",
   },
   ca: {
-    appTagline: "Llegeix més ràpid, paraula a paraula.",
+    appTagline: "Llegeix més ràpid,",
+    appTaglineEmphasis: "una paraula alhora.",
     appDescription:
       "Cada paraula apareix en un punt fix — centra't en la lletra destacada per mantenir el ritme.",
     idlePlaceholder: "Clica per reproduir",
@@ -59,7 +62,8 @@ export const translations: Record<Language, Translations> = {
     keyboardHint: "Espai · R · ← / →",
   },
   es: {
-    appTagline: "Lee más rápido, palabra a palabra.",
+    appTagline: "Lee más rápido,",
+    appTaglineEmphasis: "palabra a palabra.",
     appDescription:
       "Cada palabra aparece en un punto fijo — céntrate en la letra destacada para mantener el ritmo.",
     idlePlaceholder: "Haz clic para reproducir",

@@ -5,7 +5,8 @@ import { Controls } from "./Controls";
 import type { Translations } from "../../i18n/translations";
 
 const mockT: Translations = {
-  appTagline: "Read faster, one word at a time.",
+  appTagline: "Read faster,",
+  appTaglineEmphasis: "one word at a time.",
   appDescription: "Focus on the highlighted letter.",
   idlePlaceholder: "Press play to start reading",
   clickToResume: "Click to resume",
