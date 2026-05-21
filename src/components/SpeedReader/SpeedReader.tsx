@@ -26,7 +26,7 @@ export function SpeedReader({
   return (
     <div
       className={[
-        "relative flex items-center justify-center w-full h-44 md:h-64 overflow-hidden bg-(--color-surface)",
+        "relative flex items-center justify-center w-full h-44 overflow-hidden bg-(--color-surface)",
         isInteractive ? "cursor-pointer select-none" : "",
       ].join(" ")}
       role={isInteractive ? "button" : "region"}
@@ -135,10 +135,15 @@ export function SpeedReader({
         status === "paused" ||
         status === "finished") && (
         <span
-          className="absolute top-1/2 font-mono text-6xl md:text-8xl font-bold select-none whitespace-nowrap"
+          className="absolute top-1/2 font-mono font-bold select-none whitespace-nowrap"
           style={{
             left: "50%",
             transform: `translate(calc(-${left.length}ch - 0.5ch), -50%)`,
+            // Scale font size so the longest half of the word never overflows the panel.
+            // 83vw / scalingLength fits the word from 360 px mobile to max-w-2xl desktop.
+            fontSize: `clamp(1.5rem, ${
+              Math.round(8300 / Math.max(right.length, left.length, 1)) / 100
+            }vw, 6rem)`,
           }}
           aria-label={word}
         >
