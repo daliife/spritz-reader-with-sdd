@@ -100,8 +100,13 @@ body {
 }
 
 @keyframes glow-loop {
-  0%, 100% { opacity: 0;    }
-  50%       { opacity: 0.14; }
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.14;
+  }
 }
 
 /* Respect user motion preference */
