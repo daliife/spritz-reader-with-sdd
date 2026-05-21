@@ -321,14 +321,14 @@ interface LanguageSelectorProps {
 
 ### Typography hierarchy
 
-| Level | Element | Size |
-| ----- | ------- | ---- |
-| 1 | ORP word (playing) | `text-6xl font-bold mono` |
-| 2 | App tagline `h2` | `text-3xl sm:text-4xl font-black` |
-| 3 | Play / Pause button | `text-base font-bold` |
-| 4 | WPM preset chips, Restart button | `text-sm` |
-| 5 | Description `p` | `text-sm` |
-| 6 | Keyboard hint, secondary labels | `text-xs` |
+| Level | Element                          | Size                              |
+| ----- | -------------------------------- | --------------------------------- |
+| 1     | ORP word (playing)               | `text-6xl font-bold mono`         |
+| 2     | App tagline `h2`                 | `text-3xl sm:text-4xl font-black` |
+| 3     | Play / Pause button              | `text-base font-bold`             |
+| 4     | WPM preset chips, Restart button | `text-sm`                         |
+| 5     | Description `p`                  | `text-sm`                         |
+| 6     | Keyboard hint, secondary labels  | `text-xs`                         |
 
 ### Accent usage
 
@@ -364,12 +364,12 @@ Handled in `App.tsx` via `useEffect` + `document.addEventListener('keydown', ...
 
 All keyframes are defined in `src/index.css` and registered as Tailwind `--animate-*` tokens in `@theme`.
 
-| Token | Keyframe | Usage |
-| ----- | -------- | ----- |
-| `--animate-fade-up` | `fade-up` 0.55 s ease-out | Content section entrances (staggered) |
-| `--animate-fade-in` | `fade-in` 0.4 s ease-out | Header entrance |
-| `--animate-float` | `float` 10 s ease-in-out infinite | Ambient background glow blobs |
-| `--animate-guide-pulse` | `guide-pulse` 2 s ease-in-out infinite | Focal guide while playing |
+| Token                   | Keyframe                               | Usage                                 |
+| ----------------------- | -------------------------------------- | ------------------------------------- |
+| `--animate-fade-up`     | `fade-up` 0.55 s ease-out              | Content section entrances (staggered) |
+| `--animate-fade-in`     | `fade-in` 0.4 s ease-out               | Header entrance                       |
+| `--animate-float`       | `float` 10 s ease-in-out infinite      | Ambient background glow blobs         |
+| `--animate-guide-pulse` | `guide-pulse` 2 s ease-in-out infinite | Focal guide while playing             |
 
 All animations respect `@media (prefers-reduced-motion: reduce)` — durations are collapsed to `0.01ms` and iteration counts to `1`.
 

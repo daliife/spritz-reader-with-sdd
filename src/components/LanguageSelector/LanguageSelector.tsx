@@ -1,21 +1,24 @@
-import type { Language } from '../../hooks/useLanguage'
+import type { Language } from "../../hooks/useLanguage";
 
 interface LanguageSelectorProps {
-  language: Language
-  onChange: (lang: Language) => void
+  language: Language;
+  onChange: (lang: Language) => void;
 }
 
 const LANGUAGES: { code: Language; label: string }[] = [
-  { code: 'en', label: 'EN' },
-  { code: 'ca', label: 'CA' },
-  { code: 'es', label: 'ES' },
-]
+  { code: "en", label: "EN" },
+  { code: "ca", label: "CA" },
+  { code: "es", label: "ES" },
+];
 
 /**
  * Language selector — ref: spritz-reader.plan.md §7, spec US-09
  * Renders a native <select> dropdown so the browser handles the picker UI.
  */
-export function LanguageSelector({ language, onChange }: LanguageSelectorProps) {
+export function LanguageSelector({
+  language,
+  onChange,
+}: LanguageSelectorProps) {
   return (
     <select
       value={language}
@@ -33,5 +36,5 @@ export function LanguageSelector({ language, onChange }: LanguageSelectorProps) 
         </option>
       ))}
     </select>
-  )
+  );
 }

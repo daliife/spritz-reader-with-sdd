@@ -64,7 +64,10 @@ export function SpeedReader({
       {status === "idle" && (
         <div className="flex flex-col items-center gap-3 select-none">
           {/* Pulsing play icon */}
-          <div className="relative flex items-center justify-center" aria-hidden="true">
+          <div
+            className="relative flex items-center justify-center"
+            aria-hidden="true"
+          >
             <div className="absolute w-14 h-14 rounded-full bg-(--color-accent) opacity-25 animate-zen-pulse" />
             <div className="w-12 h-12 rounded-full bg-(--color-accent) flex items-center justify-center">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
@@ -91,7 +94,13 @@ export function SpeedReader({
           aria-hidden="true"
         >
           <span className="flex items-center gap-1 text-xs text-(--color-text-muted)">
-            <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="10"
+              height="10"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path d="M8 5v14l11-7z" />
             </svg>
             {t.clickToResume}
@@ -106,7 +115,13 @@ export function SpeedReader({
           aria-hidden="true"
         >
           <span className="flex items-center gap-1 text-xs text-(--color-text-muted)">
-            <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="10"
+              height="10"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <rect x="6" y="4" width="4" height="16" />
               <rect x="14" y="4" width="4" height="16" />
             </svg>

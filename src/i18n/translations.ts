@@ -28,7 +28,8 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   en: {
     appTagline: "Read faster, one word at a time.",
-    appDescription: "Each word appears at a fixed point — focus on the highlighted letter to keep your reading flow.",
+    appDescription:
+      "Each word appears at a fixed point — focus on the highlighted letter to keep your reading flow.",
     idlePlaceholder: "Click to play",
     clickToResume: "Click to resume",
     clickToPause: "Click to pause",
@@ -46,7 +47,8 @@ export const translations: Record<Language, Translations> = {
   },
   ca: {
     appTagline: "Llegeix més ràpid, paraula a paraula.",
-    appDescription: "Cada paraula apareix en un punt fix — centra't en la lletra destacada per mantenir el ritme.",
+    appDescription:
+      "Cada paraula apareix en un punt fix — centra't en la lletra destacada per mantenir el ritme.",
     idlePlaceholder: "Clica per reproduir",
     clickToResume: "Clica per continuar",
     clickToPause: "Clica per pausar",
@@ -64,7 +66,8 @@ export const translations: Record<Language, Translations> = {
   },
   es: {
     appTagline: "Lee más rápido, palabra a palabra.",
-    appDescription: "Cada palabra aparece en un punto fijo — céntrate en la letra destacada para mantener el ritmo.",
+    appDescription:
+      "Cada palabra aparece en un punto fijo — céntrate en la letra destacada para mantener el ritmo.",
     idlePlaceholder: "Haz clic para reproducir",
     clickToResume: "Haz clic para continuar",
     clickToPause: "Haz clic para pausar",

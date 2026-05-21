@@ -37,9 +37,8 @@ function handleWpmGroupKeyDown(
     e.preventDefault();
     e.stopPropagation(); // prevent global ArrowLeft/Right handler
     onWpmChange(WPM_PRESETS[nextIdx]);
-    const buttons = e.currentTarget.querySelectorAll<HTMLButtonElement>(
-      '[role="radio"]',
-    );
+    const buttons =
+      e.currentTarget.querySelectorAll<HTMLButtonElement>('[role="radio"]');
     buttons[nextIdx]?.focus();
   }
 }
