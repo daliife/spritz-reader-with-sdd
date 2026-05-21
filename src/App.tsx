@@ -94,7 +94,7 @@ export default function App() {
   }, [status, play, pause, restart, setWpm, wpm]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-(--color-bg) text-(--color-text-primary) transition-colors duration-200">
+    <div className="min-h-dvh flex flex-col bg-(--color-bg) text-(--color-text-primary) transition-colors duration-200">
       {/* Ambient accent glows */}
       <div
         aria-hidden="true"

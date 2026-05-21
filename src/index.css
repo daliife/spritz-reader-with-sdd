@@ -42,6 +42,7 @@
 
 html {
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* prevent horizontal scroll from fixed ambient glows */
 }
 
 body {
