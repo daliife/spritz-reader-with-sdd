@@ -26,7 +26,7 @@ export function SpeedReader({
   return (
     <div
       className={[
-        "relative flex items-center justify-center w-full h-44 md:h-64 overflow-hidden bg-(--color-surface) group",
+        "relative flex items-center justify-center w-full h-44 md:h-64 overflow-hidden bg-(--color-surface)",
         isInteractive ? "cursor-pointer select-none" : "",
       ].join(" ")}
       role={isInteractive ? "button" : "region"}
@@ -72,7 +72,6 @@ export function SpeedReader({
             className="relative flex items-center justify-center"
             aria-hidden="true"
           >
-            <div className="absolute w-14 h-14 md:w-20 md:h-20 rounded-full bg-(--color-accent) opacity-0 group-hover:animate-zen-pulse" />
             <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-(--color-accent) flex items-center justify-center">
               <svg
                 viewBox="0 0 24 24"

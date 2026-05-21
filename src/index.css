@@ -9,6 +9,7 @@
   --animate-fade-in: fade-in 0.4s ease-out both;
   --animate-float: float 10s ease-in-out infinite;
   --animate-zen-pulse: zen-pulse 2.8s ease-out infinite;
+  --animate-glow-loop: glow-loop 2.4s ease-in-out infinite;
 }
 
 /* Light theme (default) */
@@ -90,12 +91,17 @@ body {
 @keyframes zen-pulse {
   0% {
     transform: scale(1);
-    opacity: 0.35;
+    opacity: 0.18;
   }
   100% {
-    transform: scale(1.75);
+    transform: scale(1.35);
     opacity: 0;
   }
+}
+
+@keyframes glow-loop {
+  0%, 100% { opacity: 0;    }
+  50%       { opacity: 0.14; }
 }
 
 /* Respect user motion preference */

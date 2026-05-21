@@ -180,23 +180,32 @@ export default function App() {
           </div>
 
           {/* Reader display */}
-          <div
-            className={[
-              "rounded-2xl overflow-hidden border transition-colors duration-300 animate-fade-up [box-shadow:var(--shadow-card)]",
-              status === "playing"
-                ? "border-(--color-accent)"
-                : status === "paused"
-                  ? "border-(--color-accent)/60"
-                  : "border-(--color-border)",
-            ].join(" ")}
-            style={{ animationDelay: "80ms" }}
-          >
-            <SpeedReader
-              word={currentWord}
-              status={status}
-              t={t}
-              onTogglePlay={status === "playing" ? pause : play}
-            />
+          <div className="relative group">
+            {/* Glow halo — breathes in/out on idle hover */}
+            {status === "idle" && (
+              <div
+                className="absolute -inset-3 rounded-3xl bg-(--color-accent) blur-xl opacity-0 group-hover:animate-glow-loop pointer-events-none"
+                aria-hidden="true"
+              />
+            )}
+            <div
+              className={[
+                "rounded-2xl overflow-hidden border transition-colors duration-300 animate-fade-up [box-shadow:var(--shadow-card)]",
+                status === "playing"
+                  ? "border-(--color-accent)"
+                  : status === "paused"
+                    ? "border-(--color-accent)/60"
+                    : "border-(--color-border)",
+              ].join(" ")}
+              style={{ animationDelay: "80ms" }}
+            >
+              <SpeedReader
+                word={currentWord}
+                status={status}
+                t={t}
+                onTogglePlay={status === "playing" ? pause : play}
+              />
+            </div>
           </div>
 
           {/* Controls */}
