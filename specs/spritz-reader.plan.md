@@ -18,44 +18,45 @@
 ```
 spritz-reader-with-sdd/
 ├── specs/
-│   ├── spritz-reader.spec.md        # Business spec (source of truth #1)
-│   ├── spritz-reader.plan.md        # This file (source of truth #2)
-│   └── spritz-reader.tasks.md       # Task checklist (source of truth #3)
+│   ├── spritz-reader.spec.md
+│   ├── spritz-reader.plan.md
+│   └── spritz-reader.tasks.md
+├── public/
+│   ├── favicon.svg                  # Custom SVG favicon
+│   └── og-image.svg                 # Open Graph image (1200×630)
 ├── src/
-│   ├── assets/                      # Static assets (favicon, etc.)
 │   ├── components/
 │   │   ├── SpeedReader/
-│   │   │   ├── SpeedReader.tsx      # ORP word display + focal line
-│   │   │   └── SpeedReader.test.tsx # Unit tests
+│   │   │   ├── SpeedReader.tsx
+│   │   │   └── SpeedReader.test.tsx
 │   │   ├── Controls/
-│   │   │   ├── Controls.tsx         # Play/Pause, WPM, Restart
+│   │   │   ├── Controls.tsx
 │   │   │   └── Controls.test.tsx
 │   │   ├── TextInput/
-│   │   │   └── TextInput.tsx        # Custom text textarea + demo toggle
+│   │   │   └── TextInput.tsx
 │   │   ├── ThemeToggle/
-│   │   │   └── ThemeToggle.tsx      # Light/dark icon button
+│   │   │   └── ThemeToggle.tsx
 │   │   └── LanguageSelector/
-│   │       └── LanguageSelector.tsx # EN / CA / ES language dropdown
+│   │       └── LanguageSelector.tsx
 │   ├── hooks/
-│   │   ├── useSpeedReader.ts        # Core state machine
-│   │   ├── useSpeedReader.test.ts   # Hook unit tests
-│   │   ├── useTheme.ts              # Theme toggle + localStorage
-│   │   └── useLanguage.ts           # Language selection + localStorage
+│   │   ├── useSpeedReader.ts
+│   │   ├── useSpeedReader.test.ts
+│   │   ├── useTheme.ts
+│   │   └── useLanguage.ts
 │   ├── i18n/
-│   │   └── translations.ts          # All UI strings keyed by Language
+│   │   └── translations.ts
 │   ├── utils/
-│   │   ├── orp.ts                   # ORP index calculation
-│   │   ├── orp.test.ts              # ORP unit tests
-│   │   ├── textParser.ts            # Raw text → string[]
-│   │   └── textParser.test.ts       # Parser unit tests
+│   │   ├── orp.ts
+│   │   ├── orp.test.ts
+│   │   ├── textParser.ts
+│   │   └── textParser.test.ts
 │   ├── data/
-│   │   └── demoText.ts              # Demo paragraph per language (EN / CA / ES)
-│   ├── App.tsx                      # Root component, layout
-│   ├── main.tsx                     # React entry point
-│   └── index.css                    # Tailwind base import + custom CSS
+│   │   └── demoText.ts
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
 ├── index.html
 ├── vite.config.ts
-├── tailwind.config.ts               # (if needed; TW v4 uses CSS config)
 ├── tsconfig.json
 ├── tsconfig.node.json
 └── package.json
@@ -194,26 +195,26 @@ function useLanguage(): {
 ```typescript
 export interface Translations {
   // App intro
-  appTagline: string
-  appDescription: string
-  // SpeedReader
-  idlePlaceholder: string
-  clickToResume: string
-  finishedMessage: string
-  // Controls
-  play: string
-  pause: string
-  restart: string
+  appTagline: string;
+  appTaglineEmphasis: string;
+  appDescription: string;
+  // SpeedReader display
+  idlePlaceholder: string;
+  clickToResume: string;
+  clickToPause: string;
   // TextInput
-  changeText: string
-  hideTextPanel: string
-  textareaPlaceholder: string
-  useDemoText: string
+  changeText: string;
+  hideTextPanel: string;
+  textareaPlaceholder: string;
+  useDemoText: string;
   // ThemeToggle
-  switchToLight: string
-  switchToDark: string
+  switchToLight: string;
+  switchToDark: string;
+  // Controls
+  wpmLabel: string;      // "WPM" (EN) / "PPM" (CA/ES)
+  wpmTooltip: string;    // "Words per minute" etc.
   // Keyboard hint
-  keyboardHint: string
+  keyboardHint: string;
 }
 
 export const translations: Record<Language, Translations> = { en: {...}, ca: {...}, es: {...} }
@@ -241,26 +242,19 @@ interface SpeedReaderProps {
 - The container has a centered vertical line at the ORP pivot column.
 - When `status === 'idle'` or `'paused'` the card is `cursor-pointer` and shows a hover overlay; clicking calls `onTogglePlay`.
 - When `status === 'playing'` the card is `cursor-pointer`; clicking calls `onTogglePlay` to pause.
-- When `status === 'finished'` the card is not interactive.
-- When `status === 'idle'` shows a placeholder message.
-- When `status === 'finished'` shows a completion message.
+- When `status === 'finished'` the card is not interactive; the last word remains displayed.
 
 ### `Controls`
 
 ```typescript
 interface ControlsProps {
-  status: ReaderStatus;
   wpm: number;
-  onPlay: () => void;
-  onPause: () => void;
-  onRestart: () => void;
   onWpmChange: (wpm: number) => void;
   t: Translations;
 }
 ```
 
-- Renders WPM preset buttons (100 / 200 / 300 / 500 / 750) as a `radiogroup` with roving tabindex — arrow keys navigate and select adjacent presets without leaving the group. The Play/Pause pill button and the Restart outline button are rendered side-by-side below.
-- Restart has been moved to the `TextInput` component.
+- Renders WPM preset buttons (100 / 200 / 300 / 500 / 750) as a `radiogroup` with roving tabindex.
 
 ### `TextInput`
 
@@ -296,9 +290,8 @@ interface LanguageSelectorProps {
 }
 ```
 
-- Renders a native `<select>` dropdown with options for EN, CA, ES.
-- The browser handles the picker UI; no custom dropdown implementation needed.
-- The `<select>` is styled to match the header aesthetic (border, muted text, accent on hover/focus).
+- Renders a segmented pill group (three `<button>` elements inside a `role="group"`) for EN / CA / ES.
+- Active language is highlighted with accent background + white text.
 
 ## 8. Tailwind Dark Mode Strategy
 
@@ -310,29 +303,30 @@ interface LanguageSelectorProps {
 
 ## 9. Key Design Tokens
 
-| Token        | Dark value | Light value |
-| ------------ | ---------- | ----------- |
-| Background   | `#09090B`  | `#FAFAFA`   |
-| Surface      | `#111113`  | `#FFFFFF`   |
-| Text primary | `#FAFAFA`  | `#09090B`   |
-| Text muted   | `#A1A1AA`  | `#78716C`   |
-| ORP accent   | `#6481F8`  | `#4A6CF7`   |
-| Border       | `#3F3F46`  | `#E4E4E7`   |
+| Token        | Dark value                                                 | Light value |
+| ------------ | ---------------------------------------------------------- | ----------- |
+| Background   | `#0c0d18`                                                  | `#f0f2ff`   |
+| Surface      | `#131421`                                                  | `#f7f8ff`   |
+| Text primary | `#fafafa`                                                  | `#09090b`   |
+| Text muted   | `#a1a1aa`                                                  | `#78716c`   |
+| ORP accent   | `#6481f8`                                                  | `#4a6cf7`   |
+| Border       | `#3f3f46`                                                  | `#e4e4e7`   |
+| Shadow card  | `color-mix(in srgb, var(--color-accent) 18%, transparent)` | same        |
 
 ### Typography hierarchy
 
-| Level | Element                          | Size                              |
-| ----- | -------------------------------- | --------------------------------- |
-| 1     | ORP word (playing)               | `text-6xl font-bold mono`         |
-| 2     | App tagline `h2`                 | `text-3xl sm:text-4xl font-black` |
-| 3     | Play / Pause button              | `text-base font-bold`             |
-| 4     | WPM preset chips, Restart button | `text-sm`                         |
-| 5     | Description `p`                  | `text-sm`                         |
-| 6     | Keyboard hint, secondary labels  | `text-xs`                         |
+| Level | Element                         | Size                                          |
+| ----- | ------------------------------- | --------------------------------------------- |
+| 1     | ORP word (playing)              | `text-6xl md:text-8xl font-bold mono`         |
+| 2     | App tagline `h2`                | `text-3xl sm:text-4xl md:text-5xl font-black` |
+| 3     | Tagline emphasis span           | `text-(--color-accent) block`                 |
+| 4     | WPM preset chips                | `text-sm md:text-base`                        |
+| 5     | Description `p`                 | `text-base md:text-lg`                        |
+| 6     | Keyboard hint, secondary labels | `text-xs`                                     |
 
 ### Accent usage
 
-The accent color appears on: logo background, focal guide line (opacity 60 %, pulses when playing), active WPM chip, Play/Pause button, WPM group label, focus rings, ambient background glow blobs.
+The accent color appears on: logo background, focal guide line (state-dependent opacity: 20 % idle / 50 % paused / 100 % playing), active WPM chip, WPM group label, `wpmTooltip` info icon, focus rings, ambient background glow blobs, panel hover glow halo.
 
 ## 10. Demo Text
 
@@ -364,12 +358,13 @@ Handled in `App.tsx` via `useEffect` + `document.addEventListener('keydown', ...
 
 All keyframes are defined in `src/index.css` and registered as Tailwind `--animate-*` tokens in `@theme`.
 
-| Token                   | Keyframe                               | Usage                                 |
-| ----------------------- | -------------------------------------- | ------------------------------------- |
-| `--animate-fade-up`     | `fade-up` 0.55 s ease-out              | Content section entrances (staggered) |
-| `--animate-fade-in`     | `fade-in` 0.4 s ease-out               | Header entrance                       |
-| `--animate-float`       | `float` 10 s ease-in-out infinite      | Ambient background glow blobs         |
-| `--animate-guide-pulse` | `guide-pulse` 2 s ease-in-out infinite | Focal guide while playing             |
+| Token                 | Keyframe                               | Usage                                 |
+| --------------------- | -------------------------------------- | ------------------------------------- |
+| `--animate-fade-up`   | `fade-up` 0.55 s ease-out              | Content section entrances (staggered) |
+| `--animate-fade-in`   | `fade-in` 0.4 s ease-out               | Header entrance                       |
+| `--animate-float`     | `float` 10 s ease-in-out infinite      | Ambient background glow blobs         |
+| `--animate-zen-pulse` | `zen-pulse` 2.8 s ease-out infinite    | (available; no active usage)          |
+| `--animate-glow-loop` | `glow-loop` 2.4 s ease-in-out infinite | Panel hover glow halo in idle state   |
 
 All animations respect `@media (prefers-reduced-motion: reduce)` — durations are collapsed to `0.01ms` and iteration counts to `1`.
 

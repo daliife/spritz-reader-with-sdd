@@ -33,7 +33,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - [ ] The pivot letter is always positioned at the horizontal center of the display, regardless of word length (using ch-based offset in a monospaced font).
 - [ ] The word changes automatically at the configured WPM rate during playback.
 - [ ] The display font is monospaced so that ORP alignment is stable.
-- [ ] The idle state shows a pulsing play icon (accent-coloured circle with ping ripple) and a ‘Click to play’ label in the accent colour.
+- [ ] The idle state shows a play icon (accent-coloured circle) centred on the reader card, with a "Click to play" label. When the user hovers the card a subtle glow halo breathes around the panel.
 
 ### US-02 — Playback Controls
 
@@ -46,7 +46,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - [ ] When the last word is reached, playback stops automatically, the finished state is shown briefly, then the reader auto-resets to idle after 3 seconds — preserving the loaded text (including any custom text the user has entered).
 - [ ] A ‘Click to resume’ hint (small label with play icon) is visible at the bottom of the reader card while paused.
 - [ ] A ⏸ badge with "Click to pause" label is shown in the bottom-right corner of the reader card on hover while playing, away from the central focal guide line.
-- [ ] The reader card border transitions to accent colour on hover (when interactive) to reinforce that the card is clickable.
+- [ ] The reader card has a permanent ambient glow shadow. Its border is state-dependent: neutral when idle, accent at 60 % opacity when paused, full accent when playing.
 
 ### US-03 — WPM Speed Control
 
@@ -114,7 +114,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 
 **Acceptance Criteria:**
 
-- [ ] A language selector dropdown is displayed in the header, next to the theme toggle.
+- [ ] A language selector is displayed in the header, next to the theme toggle, as a segmented pill group.
 - [ ] Supported languages: **EN** (English), **CA** (Catalan), **ES** (Spanish).
 - [ ] Selecting a language updates all UI strings (button labels, placeholders, messages) immediately.
 - [ ] The selected language is persisted in `localStorage` under the key `'spritz-language'` and restored on next visit.
