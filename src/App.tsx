@@ -55,6 +55,13 @@ export default function App() {
       )
         return;
 
+      // Don't override native button/select behaviour for Space and arrows
+      if (
+        e.target instanceof HTMLButtonElement &&
+        (e.key === " " || e.key === "ArrowLeft" || e.key === "ArrowRight")
+      )
+        return;
+
       switch (e.key) {
         case " ":
           e.preventDefault();
@@ -82,11 +89,40 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-(--color-bg) text-(--color-text-primary) transition-colors duration-200">
+      {/* Ambient accent glows */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed w-96 h-96 rounded-full bg-(--color-accent) opacity-10 blur-3xl animate-float"
+        style={{ top: '-6rem', right: '-5rem' }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed w-72 h-72 rounded-full bg-(--color-accent) opacity-[0.07] blur-3xl animate-float"
+        style={{ bottom: '-4rem', left: '-4rem', animationDelay: '-5s' }}
+      />
+
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-(--color-border)">
-        <h1 className="text-sm font-semibold tracking-widest uppercase opacity-60">
-          Spritz Reader
-        </h1>
+      <header className="flex items-center justify-between px-6 py-4 border-b border-(--color-border) animate-fade-in">
+        <div className="flex items-center gap-2.5">
+          {/* Logo */}
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-(--color-accent) shrink-0">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              {/* Left temple arm */}
+              <line x1="1.5" y1="9" x2="0" y2="7.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+              {/* Left lens */}
+              <circle cx="5" cy="9" r="3.5" stroke="white" strokeWidth="1.5" />
+              {/* Nose bridge */}
+              <path d="M8.5 9 Q9 7 9.5 9" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+              {/* Right lens */}
+              <circle cx="13" cy="9" r="3.5" stroke="white" strokeWidth="1.5" />
+              {/* Right temple arm */}
+              <line x1="16.5" y1="9" x2="18" y2="7.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </div>
+          <h1 className="text-base font-bold tracking-tight">
+            Spritz Reader
+          </h1>
+        </div>
         <div className="flex items-center gap-2">
           <LanguageSelector
             language={language}
@@ -97,10 +133,18 @@ export default function App() {
       </header>
 
       {/* Main */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-10">
-        <div className="w-full max-w-2xl flex flex-col gap-8">
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-12">
+        <div className="w-full max-w-xl flex flex-col gap-10">
+          {/* Intro */}
+          <div className="text-center animate-fade-up">
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tighter leading-tight">{t.appTagline}</h2>
+            <p className="mt-3 text-sm text-(--color-text-muted) max-w-sm mx-auto leading-relaxed">
+              {t.appDescription}
+            </p>
+          </div>
+
           {/* Reader display */}
-          <div className="rounded-xl overflow-hidden border border-(--color-border) bg-(--color-surface)">
+          <div className="rounded-2xl overflow-hidden border border-(--color-border) hover:border-(--color-accent) transition-colors duration-200 animate-fade-up" style={{ animationDelay: '80ms' }}>
             <SpeedReader
               word={currentWord}
               status={status}
@@ -110,24 +154,28 @@ export default function App() {
           </div>
 
           {/* Controls */}
-          <Controls
-            status={status}
-            wpm={wpm}
-            onPlay={play}
-            onPause={pause}
-            onWpmChange={setWpm}
-            t={t}
-          />
+          <div className="animate-fade-up" style={{ animationDelay: '160ms' }}>
+            <Controls
+              status={status}
+              wpm={wpm}
+              onPlay={play}
+              onPause={pause}
+              onRestart={restart}
+              onWpmChange={setWpm}
+              t={t}
+            />
+          </div>
 
           {/* Text input */}
-          <TextInput
-            value={text}
-            isDemo={isUsingDemo}
-            onChange={handleTextChange}
-            onUseDemo={handleUseDemo}
-            onRestart={restart}
-            t={t}
-          />
+          <div className="animate-fade-up" style={{ animationDelay: '240ms' }}>
+            <TextInput
+              value={text}
+              isDemo={isUsingDemo}
+              onChange={handleTextChange}
+              onUseDemo={handleUseDemo}
+              t={t}
+            />
+          </div>
         </div>
       </main>
     </div>

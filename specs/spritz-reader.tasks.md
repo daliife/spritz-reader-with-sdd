@@ -62,7 +62,7 @@
   - Finished state: show completion message
 - [x] **T-17** Implement `src/components/Controls/Controls.tsx`
   - Play/Pause button (icon + label, ref: US-02)
-  - Five WPM preset buttons: 150 / 250 / 350 / 500 / 750 (ref: US-03); active preset highlighted
+  - Five WPM preset buttons: 100 / 200 / 300 / 500 / 750 (ref: US-03); active preset highlighted
   - Restart button (ref: US-02)
   - All buttons have `aria-label`
 - [-] **T-18** ~~Implement `src/components/ProgressBar/ProgressBar.tsx`~~ _(removed — see T-46)_
@@ -113,8 +113,8 @@
   - Play button fires `onPlay` callback
   - Pause button fires `onPause` callback
   - Restart button fires `onRestart` callback
-  - All 5 WPM preset buttons render; clicking one fires `onWpmChange` with that value
-  - Active preset has `aria-pressed="true"`
+  - All 5 WPM preset buttons render with `role="radio"`; clicking one fires `onWpmChange` with that value
+  - Active preset has `aria-checked="true"` (radiogroup pattern)
 
 ---
 
@@ -123,7 +123,7 @@
 - [ ] **T-27** Verify responsive layout at 375px, 768px, 1280px viewport widths
 - [ ] **T-28** Add keyboard shortcut legend to the UI (tooltip or footer note, ref: US-08) _(hint already in Controls component)_
 - [ ] **T-29** Verify all interactive elements have visible focus rings (accessibility)
-- [x] **T-30** Run `pnpm vitest run` — all 48 tests pass ✓
+- [x] **T-30** Run `pnpm vitest run` — all 47 tests pass ✓
 - [x] **T-31** Run `pnpm build` — production build succeeds with no TypeScript errors ✓
 - [x] **T-32** Update this file: mark all completed tasks with `[x]`
 
@@ -158,4 +158,28 @@
 - [x] **T-52** Expand demo texts from 1 paragraph to 3 paragraphs per language for a longer reading session
 - [x] **T-53** Set Vite dev server port to 3000 (`server: { port: 3000 }` in `vite.config.ts`)
 - [x] **T-54** Make SpeedReader card clickable for play/pause (ref: spec US-02) — add `onTogglePlay: () => void` prop to `SpeedReader`; container is `cursor-pointer` when not finished; `App.tsx` passes handler that calls `play()` or `pause()` based on current status
-- [x] **T-55** Redesign control layout (ref: spec US-02, US-05) — update `idlePlaceholder` text to “Click to play” variants; remove Restart from `Controls`; add `onRestart` prop to `TextInput` with button always visible in header row alongside panel toggle; update `App.tsx`, tests, and component APIs accordingly
+- [x] **T-55** Redesign control layout (ref: spec US-02, US-05) — update `idlePlaceholder` text to "Click to play" variants; remove Restart from `Controls`; add `onRestart` prop to `TextInput` with button always visible in header row alongside panel toggle; update `App.tsx`, tests, and component APIs accordingly _(superseded by T-66)_
+
+---
+
+## Phase 11 — UI Polish & Accessibility
+
+- [x] **T-56** Fix dark mode WCAG contrast — `--color-text-muted` dark `#52525B` → `#A1A1AA` (~8:1 contrast ratio); `--color-border` dark `#27272A` → `#3F3F46`; update `plan.md §9` tokens accordingly
+- [x] **T-57** Header: align `LanguageSelector` height to `h-9` (36 px) to match `ThemeToggle`; add inline SVG logo inside accent-coloured rounded square; make app name `text-base font-bold` (was `text-sm opacity-60 uppercase`)
+- [x] **T-58** Minimalist layout redesign — add `appTagline` and `appDescription` keys to `Translations` (all three languages); add intro section above the reader display (`h2` + subtitle); narrow container from `max-w-2xl` to `max-w-xl`; increase vertical spacing
+- [x] **T-59** WPM radiogroup keyboard fix (ref: spec US-03, US-08) — convert WPM preset group to `role="radiogroup"` with roving tabindex (`tabIndex={0}` for active, `-1` for others); add `handleWpmGroupKeyDown` handling `←`, `→`, `↑`, `↓`, `Home`, `End` with `stopPropagation()` so the global ±50 handler is not triggered simultaneously
+- [x] **T-60** Global keyboard guard — skip `Space`, `ArrowLeft`, `ArrowRight` in the document-level handler when `e.target instanceof HTMLButtonElement` to prevent double-firing with native button behaviour
+- [x] **T-61** SpeedReader `stopPropagation` — add `e.stopPropagation()` inside the component's `onKeyDown` handler so Space/Enter do not also trigger the global play/pause handler
+- [x] **T-62** Fix Tailwind lint — replace `w-[2px]` with `w-0.5` in `SpeedReader.tsx`
+- [x] **T-63** Update all test `mockT` objects to include the new `appTagline` and `appDescription` fields; update WPM preset queries from `role="button"` / `aria-pressed` to `role="radio"` / `aria-checked`
+- [x] **T-64** Run `pnpm vitest run` — all 47 tests pass ✓ _(48 after T-66 adds restart callback test)_
+- [x] **T-65** Redesign WPM presets for progressive UX — change from `150/250/350/500/750` to `100/200/300/500/750`; update default WPM from 350 to 200 (average reading speed as baseline); update `Controls.tsx`, `useSpeedReader.ts` default, `Controls.test.tsx` assertions, and all three spec files
+- [x] **T-66** Move Restart into `Controls` alongside Play/Pause (ref: spec US-02) — add `onRestart` prop to `Controls`; render Restart as a secondary outline pill next to Play/Pause; remove `onRestart` from `TextInput`; simplify `TextInput` header to a single toggle button; update `App.tsx`, `Controls.test.tsx` (add restart callback test), and all three spec files
+- [x] **T-67** Exaggerate typography hierarchy and extend accent colour usage — tagline `text-2xl font-bold` → `text-4xl font-black tracking-tighter`; description `text-sm` → `text-xs`; WPM group label changed from muted to `text-(--color-accent) font-bold`; Play button `text-sm px-9 py-2.5` → `text-base font-bold px-10 py-3`; Restart height aligned `py-3 px-6`; focal guide opacity `0.4` → `0.6`; update `plan.md §9` typography hierarchy and accent usage tables
+- [x] **T-68** Add entrance animations, ambient accent glows, and focal guide pulse
+- [x] **T-69** Improve idle / paused / playing state discoverability
+- [x] **T-70** Replace header logo with a glasses icon
+- [x] **T-71** Typography readability pass
+- [x] **T-72** Reader card hover affordance — add `hover:border-(--color-accent) transition-colors duration-200` to the reader card wrapper in `App.tsx`; update `spec.md US-02`
+- [x] **T-73** Playing pause hint — move from centred bottom to bottom-right corner, add pause icon + `clickToPause` translated text; add string to translations + update mock in tests
+- [x] **T-74** Zen play pulse — replace `animate-ping` (1s aggressive) with custom `animate-zen-pulse` (2.8s ease-out); add `@keyframes zen-pulse` + `--animate-zen-pulse` token to `index.css` — description `text-xs max-w-xs` → `text-sm max-w-sm`; tagline `text-4xl` → `text-3xl sm:text-4xl` (responsive); WPM preset chips `text-xs` → `text-sm`; update `plan.md §9` typography hierarchy table (reading glasses SVG: two lens circles, nose bridge arc, temple arms; white strokes on accent background) — update `App.tsx` inline SVG — idle: replace muted text with pulsing accent play circle (ping ripple) + accent-coloured label; paused: add `▶ Click to resume` hint at card bottom; playing: add hover-only `⏸` badge at card bottom; add `clickToResume` key to `Translations` interface + all 3 languages; update `SpeedReader.test.tsx` and `Controls.test.tsx` mockT; update `spec.md US-01`, `spec.md US-02`, `plan.md §6.6` — add `@keyframes` (fade-up, fade-in, float, guide-pulse) + `--animate-*` tokens in `@theme` to `index.css`; add reduced-motion media query; add two fixed blurred blob decorations in `App.tsx`; stagger `animate-fade-up` (80 ms steps) on each content section; `animate-fade-in` on header; conditionally add `animate-guide-pulse` to SpeedReader focal guide while playing; update `spec.md §5`, `plan.md §9 accent usage`, `plan.md §12`

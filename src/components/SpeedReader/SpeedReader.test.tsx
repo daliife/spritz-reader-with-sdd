@@ -4,7 +4,11 @@ import { SpeedReader } from "./SpeedReader";
 import type { Translations } from "../../i18n/translations";
 
 const mockT: Translations = {
+  appTagline: "Read faster, one word at a time.",
+  appDescription: "Focus on the highlighted letter.",
   idlePlaceholder: "Click to play",
+  clickToResume: "Click to resume",
+  clickToPause: "Click to pause",
   finishedMessage: "Finished — press restart to read again",
   play: "▶ Play",
   pause: "⏸ Pause",

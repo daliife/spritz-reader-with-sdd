@@ -193,8 +193,12 @@ function useLanguage(): {
 
 ```typescript
 export interface Translations {
+  // App intro
+  appTagline: string
+  appDescription: string
   // SpeedReader
   idlePlaceholder: string
+  clickToResume: string
   finishedMessage: string
   // Controls
   play: string
@@ -249,12 +253,13 @@ interface ControlsProps {
   wpm: number;
   onPlay: () => void;
   onPause: () => void;
+  onRestart: () => void;
   onWpmChange: (wpm: number) => void;
   t: Translations;
 }
 ```
 
-- Renders WPM preset buttons and the Play/Pause pill button.
+- Renders WPM preset buttons (100 / 200 / 300 / 500 / 750) as a `radiogroup` with roving tabindex — arrow keys navigate and select adjacent presets without leaving the group. The Play/Pause pill button and the Restart outline button are rendered side-by-side below.
 - Restart has been moved to the `TextInput` component.
 
 ### `TextInput`
@@ -265,13 +270,12 @@ interface TextInputProps {
   isDemo: boolean;
   onChange: (text: string) => void;
   onUseDemo: () => void;
-  onRestart: () => void;
   t: Translations;
 }
 ```
 
-- Header row always shows the panel toggle ("Change text" / "Hide panel") and a Restart button side-by-side.
-- Restart is placed here because it is semantically related to session/text management.
+- Header row shows only the panel toggle ("Change text" / "Hide panel").
+- Restart is in `Controls`, not here.
 
 ### `ThemeToggle`
 
@@ -311,9 +315,24 @@ interface LanguageSelectorProps {
 | Background   | `#09090B`  | `#FAFAFA`   |
 | Surface      | `#111113`  | `#FFFFFF`   |
 | Text primary | `#FAFAFA`  | `#09090B`   |
-| Text muted   | `#52525B`  | `#78716C`   |
+| Text muted   | `#A1A1AA`  | `#78716C`   |
 | ORP accent   | `#6481F8`  | `#4A6CF7`   |
-| Border       | `#27272A`  | `#E4E4E7`   |
+| Border       | `#3F3F46`  | `#E4E4E7`   |
+
+### Typography hierarchy
+
+| Level | Element | Size |
+| ----- | ------- | ---- |
+| 1 | ORP word (playing) | `text-6xl font-bold mono` |
+| 2 | App tagline `h2` | `text-3xl sm:text-4xl font-black` |
+| 3 | Play / Pause button | `text-base font-bold` |
+| 4 | WPM preset chips, Restart button | `text-sm` |
+| 5 | Description `p` | `text-sm` |
+| 6 | Keyboard hint, secondary labels | `text-xs` |
+
+### Accent usage
+
+The accent color appears on: logo background, focal guide line (opacity 60 %, pulses when playing), active WPM chip, Play/Pause button, WPM group label, focus rings, ambient background glow blobs.
 
 ## 10. Demo Text
 
@@ -340,6 +359,19 @@ Handled in `App.tsx` via `useEffect` + `document.addEventListener('keydown', ...
 | `R` / `r`    | Restart             |
 | `ArrowLeft`  | WPM − 50 (min 100)  |
 | `ArrowRight` | WPM + 50 (max 1000) |
+
+## 12. Animation System
+
+All keyframes are defined in `src/index.css` and registered as Tailwind `--animate-*` tokens in `@theme`.
+
+| Token | Keyframe | Usage |
+| ----- | -------- | ----- |
+| `--animate-fade-up` | `fade-up` 0.55 s ease-out | Content section entrances (staggered) |
+| `--animate-fade-in` | `fade-in` 0.4 s ease-out | Header entrance |
+| `--animate-float` | `float` 10 s ease-in-out infinite | Ambient background glow blobs |
+| `--animate-guide-pulse` | `guide-pulse` 2 s ease-in-out infinite | Focal guide while playing |
+
+All animations respect `@media (prefers-reduced-motion: reduce)` — durations are collapsed to `0.01ms` and iteration counts to `1`.
 
 ## 12. Testing Strategy
 

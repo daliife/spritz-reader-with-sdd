@@ -6,7 +6,6 @@ interface TextInputProps {
   isDemo: boolean;
   onChange: (text: string) => void;
   onUseDemo: () => void;
-  onRestart: () => void;
   t: Translations;
 }
 
@@ -18,32 +17,21 @@ export function TextInput({
   isDemo,
   onChange,
   onUseDemo,
-  onRestart,
   t,
 }: TextInputProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between">
-        <button
-          onClick={() => setIsOpen((o) => !o)}
-          aria-expanded={isOpen}
-          aria-controls="text-input-panel"
-          className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
-                     underline underline-offset-2 transition-colors"
-        >
-          {isOpen ? t.hideTextPanel : t.changeText}
-        </button>
-        <button
-          onClick={onRestart}
-          aria-label={`${t.restart} (R)`}
-          className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
-                     transition-colors"
-        >
-          {t.restart}
-        </button>
-      </div>
+      <button
+        onClick={() => setIsOpen((o) => !o)}
+        aria-expanded={isOpen}
+        aria-controls="text-input-panel"
+        className="text-sm text-(--color-text-muted) hover:text-(--color-text-primary)
+                   underline underline-offset-2 transition-colors"
+      >
+        {isOpen ? t.hideTextPanel : t.changeText}
+      </button>
 
       {isOpen && (
         <div id="text-input-panel" className="mt-3 flex flex-col gap-2">

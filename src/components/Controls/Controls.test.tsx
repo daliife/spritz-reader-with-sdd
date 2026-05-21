@@ -5,7 +5,11 @@ import { Controls } from "./Controls";
 import type { Translations } from "../../i18n/translations";
 
 const mockT: Translations = {
+  appTagline: "Read faster, one word at a time.",
+  appDescription: "Focus on the highlighted letter.",
   idlePlaceholder: "Press play to start reading",
+  clickToResume: "Click to resume",
+  clickToPause: "Click to pause",
   finishedMessage: "Finished — press restart to read again",
   play: "▶ Play",
   pause: "⏸ Pause",
@@ -21,9 +25,10 @@ const mockT: Translations = {
 
 const defaultProps = {
   status: "idle" as const,
-  wpm: 350,
+  wpm: 300,
   onPlay: vi.fn(),
   onPause: vi.fn(),
+  onRestart: vi.fn(),
   onWpmChange: vi.fn(),
   t: mockT,
 };
@@ -53,30 +58,37 @@ describe("Controls", () => {
     expect(onPause).toHaveBeenCalledOnce();
   });
 
+  it("fires onRestart when Restart is clicked", async () => {
+    const onRestart = vi.fn();
+    render(<Controls {...defaultProps} onRestart={onRestart} />);
+    await userEvent.click(screen.getByRole("button", { name: /restart/i }));
+    expect(onRestart).toHaveBeenCalledOnce();
+  });
+
   it("renders all 5 WPM preset buttons", () => {
     render(<Controls {...defaultProps} />);
-    for (const preset of [150, 250, 350, 500, 750]) {
+    for (const preset of [100, 200, 300, 500, 750]) {
       expect(
-        screen.getByRole("button", { name: `${preset} words per minute` }),
+        screen.getByRole("radio", { name: `${preset} words per minute` }),
       ).toBeInTheDocument();
     }
   });
 
-  it("marks the active preset with aria-pressed=true", () => {
-    render(<Controls {...defaultProps} wpm={350} />);
+  it("marks the active preset with aria-checked=true", () => {
+    render(<Controls {...defaultProps} wpm={300} />);
     expect(
-      screen.getByRole("button", { name: "350 words per minute" }),
-    ).toHaveAttribute("aria-pressed", "true");
+      screen.getByRole("radio", { name: "300 words per minute" }),
+    ).toHaveAttribute("aria-checked", "true");
     expect(
-      screen.getByRole("button", { name: "250 words per minute" }),
-    ).toHaveAttribute("aria-pressed", "false");
+      screen.getByRole("radio", { name: "200 words per minute" }),
+    ).toHaveAttribute("aria-checked", "false");
   });
 
   it("fires onWpmChange with the preset value when a preset is clicked", async () => {
     const onWpmChange = vi.fn();
     render(<Controls {...defaultProps} onWpmChange={onWpmChange} />);
     await userEvent.click(
-      screen.getByRole("button", { name: "500 words per minute" }),
+      screen.getByRole("radio", { name: "500 words per minute" }),
     );
     expect(onWpmChange).toHaveBeenCalledWith(500);
   });

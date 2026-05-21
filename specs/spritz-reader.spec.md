@@ -33,6 +33,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - [ ] The pivot letter is always positioned at the horizontal center of the display, regardless of word length (using ch-based offset in a monospaced font).
 - [ ] The word changes automatically at the configured WPM rate during playback.
 - [ ] The display font is monospaced so that ORP alignment is stable.
+- [ ] The idle state shows a pulsing play icon (accent-coloured circle with ping ripple) and a ‘Click to play’ label in the accent colour.
 
 ### US-02 — Playback Controls
 
@@ -43,9 +44,12 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - [ ] A Play/Pause button toggles playback. When paused, the current word stays on screen.
 - [ ] Clicking anywhere on the reader display card also toggles play/pause (idle → play, playing → pause, paused → play). Has no effect when finished.
 - [ ] The reader card shows a "click to play" hint in the idle state.
-- [ ] A Restart button is located in the text management area (next to the text panel toggle), always visible.
+- [ ] A Restart button is placed alongside the Play/Pause button in the Controls area, forming a coherent playback group.
 - [ ] Playback state is clearly communicated via the button label/icon.
 - [ ] When the last word is reached, playback stops automatically and the finished state is shown.
+- [ ] A ‘Click to resume’ hint (small label with play icon) is visible at the bottom of the reader card while paused.
+- [ ] A ⏸ badge with "Click to pause" label is shown in the bottom-right corner of the reader card on hover while playing, away from the central focal guide line.
+- [ ] The reader card border transitions to accent colour on hover (when interactive) to reinforce that the card is clickable.
 
 ### US-03 — WPM Speed Control
 
@@ -53,7 +57,8 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 
 **Acceptance Criteria:**
 
-- [ ] Five preset speed buttons are shown: **150 / 250 / 350 / 500 / 750 WPM**.
+- [ ] Five preset speed buttons are shown: **100 / 200 / 300 / 500 / 750 WPM**.
+- [ ] The default WPM on first load is **200** (matches average reading speed, giving a comfortable baseline).
 - [ ] The active preset is visually highlighted (accent color).
 - [ ] Changing speed during playback takes effect immediately without restarting.
 - [ ] Keyboard arrows (← / →) also adjust WPM in steps of 50 within the 100–1000 range.
@@ -69,8 +74,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 **Acceptance Criteria:**
 
 - [ ] A textarea is available for the user to input custom text.
-- [ ] A toggle/button switches between demo text and custom text.
-- [ ] A Restart button is always visible alongside the text panel toggle, so the user can restart the reader from the same area used to manage text.
+- [ ] A toggle button expands/collapses the text panel.
 - [ ] When custom text is empty, the app falls back to demo text.
 - [ ] Changing text resets the reader to the first word.
 
@@ -128,6 +132,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - **Layout**: Centered single-column; max-width constrained (~900px) for comfortable reading.
 - **Responsive**: Functional on mobile (≥ 375px wide).
 - **Accessibility**: All interactive controls must have ARIA labels; focus styles must be visible.
+- **Animation**: Content sections enter with a `fade-up` (opacity + translateY) stagger of 80 ms between each. Two fixed ambient accent-colour glow blobs animate slowly in background corners. Focal guide pulses opacity 60 % → 100 % while playing. All animations are disabled when `prefers-reduced-motion: reduce` is set.
 
 ## 6. Constraints
 

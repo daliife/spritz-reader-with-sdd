@@ -21,9 +21,9 @@ export function LanguageSelector({ language, onChange }: LanguageSelectorProps) 
       value={language}
       onChange={(e) => onChange(e.target.value as Language)}
       aria-label="Select language"
-      className="text-xs font-medium rounded-md border border-(--color-border)
+      className="h-9 text-xs font-medium rounded-md border border-(--color-border)
                  bg-(--color-surface) text-(--color-text-muted)
-                 px-2 py-1.5 cursor-pointer transition-colors
+                 px-2 cursor-pointer transition-colors
                  hover:border-(--color-accent) hover:text-(--color-text-primary)
                  focus:outline-none focus:border-(--color-accent)"
     >
