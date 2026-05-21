@@ -62,6 +62,7 @@ export default function App() {
       )
         return;
 
+      const wpmPresets = [100, 200, 300, 500, 750];
       switch (e.key) {
         case " ":
           e.preventDefault();
@@ -72,14 +73,19 @@ export default function App() {
           e.preventDefault();
           restart();
           break;
-        case "ArrowLeft":
+        case "ArrowLeft": {
           e.preventDefault();
-          setWpm(wpm - 50);
+          const idx = wpmPresets.indexOf(wpm);
+          if (idx > 0) setWpm(wpmPresets[idx - 1]);
           break;
-        case "ArrowRight":
+        }
+        case "ArrowRight": {
           e.preventDefault();
-          setWpm(wpm + 50);
+          const idx = wpmPresets.indexOf(wpm);
+          if (idx !== -1 && idx < wpmPresets.length - 1)
+            setWpm(wpmPresets[idx + 1]);
           break;
+        }
       }
     }
 
@@ -158,21 +164,28 @@ export default function App() {
       </header>
 
       {/* Main */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-12">
-        <div className="w-full max-w-xl flex flex-col gap-10">
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-20">
+        <div className="w-full max-w-xl md:max-w-2xl flex flex-col gap-10 md:gap-14">
           {/* Intro */}
           <div className="text-center animate-fade-up">
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tighter leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter leading-tight">
               {t.appTagline}
             </h2>
-            <p className="mt-3 text-sm text-(--color-text-muted) max-w-sm mx-auto leading-relaxed">
+            <p className="mt-3 text-sm md:text-base text-(--color-text-muted) max-w-sm md:max-w-md mx-auto leading-relaxed">
               {t.appDescription}
             </p>
           </div>
 
           {/* Reader display */}
           <div
-            className="rounded-2xl overflow-hidden border border-(--color-border) hover:border-(--color-accent) transition-colors duration-200 animate-fade-up"
+            className={[
+              "rounded-2xl overflow-hidden border transition-colors duration-300 animate-fade-up",
+              status === "playing"
+                ? "border-(--color-accent)"
+                : status === "paused"
+                  ? "border-(--color-accent)/60"
+                  : "border-(--color-border) hover:border-(--color-accent)",
+            ].join(" ")}
             style={{ animationDelay: "80ms" }}
           >
             <SpeedReader
@@ -185,15 +198,7 @@ export default function App() {
 
           {/* Controls */}
           <div className="animate-fade-up" style={{ animationDelay: "160ms" }}>
-            <Controls
-              status={status}
-              wpm={wpm}
-              onPlay={play}
-              onPause={pause}
-              onRestart={restart}
-              onWpmChange={setWpm}
-              t={t}
-            />
+            <Controls wpm={wpm} onWpmChange={setWpm} t={t} />
           </div>
 
           {/* Text input */}

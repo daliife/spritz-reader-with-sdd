@@ -1,12 +1,7 @@
-import type { ReaderStatus } from "../../hooks/useSpeedReader";
 import type { Translations } from "../../i18n/translations";
 
 interface ControlsProps {
-  status: ReaderStatus;
   wpm: number;
-  onPlay: () => void;
-  onPause: () => void;
-  onRestart: () => void;
   onWpmChange: (wpm: number) => void;
   t: Translations;
 }
@@ -46,23 +41,12 @@ function handleWpmGroupKeyDown(
 /**
  * Playback controls — ref: spritz-reader.plan.md §7, spec US-02, US-03
  */
-export function Controls({
-  status,
-  wpm,
-  onPlay,
-  onPause,
-  onRestart,
-  onWpmChange,
-  t,
-}: ControlsProps) {
-  const isPlaying = status === "playing";
-  const isFinished = status === "finished";
-
+export function Controls({ wpm, onWpmChange, t }: ControlsProps) {
   return (
     <div className="flex flex-col items-center gap-5 w-full">
       {/* WPM presets — radiogroup with roving tabindex */}
       <div
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 md:gap-3"
         role="radiogroup"
         aria-labelledby="wpm-group-label"
         onKeyDown={(e) => handleWpmGroupKeyDown(e, wpm, onWpmChange)}
@@ -74,11 +58,11 @@ export function Controls({
               key={preset}
               role="radio"
               onClick={() => onWpmChange(preset)}
-              aria-label={`${preset} words per minute`}
+              aria-label={`${preset} ${t.wpmTooltip.toLowerCase()}`}
               aria-checked={isActive}
               tabIndex={isActive ? 0 : -1}
               className={[
-                "px-3 py-1.5 rounded-md text-sm font-medium tabular-nums transition-colors",
+                "px-3 py-1.5 md:px-4 md:py-2 rounded-md text-sm md:text-base font-medium tabular-nums transition-colors",
                 isActive
                   ? "bg-(--color-accent) text-white"
                   : "border border-(--color-border) text-(--color-text-muted) hover:text-(--color-text-primary) hover:border-(--color-accent)",
@@ -88,42 +72,39 @@ export function Controls({
             </button>
           );
         })}
-        <span
-          id="wpm-group-label"
-          className="text-xs font-bold text-(--color-accent) ml-2 select-none tracking-wider"
-        >
-          WPM
-        </span>
-      </div>
-
-      {/* Play / Pause + Restart */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={isPlaying ? onPause : onPlay}
-          disabled={isFinished}
-          aria-label={isPlaying ? `${t.pause} (Space)` : `${t.play} (Space)`}
-          className="px-10 py-3 rounded-full bg-(--color-accent) text-white
-                     font-bold text-base tracking-wide
-                     hover:brightness-110 active:scale-[0.97]
-                     disabled:opacity-30 disabled:cursor-not-allowed
-                     transition-all duration-150"
-        >
-          {isPlaying ? t.pause : t.play}
-        </button>
-        <button
-          onClick={onRestart}
-          aria-label={`${t.restart} (R)`}
-          className="px-6 py-3 rounded-full border border-(--color-border)
-                     text-(--color-text-muted) text-sm font-medium
-                     hover:border-(--color-accent) hover:text-(--color-text-primary)
-                     transition-colors"
-        >
-          {t.restart}
-        </button>
+        <div className="flex items-center gap-1 ml-2">
+          <span
+            id="wpm-group-label"
+            className="text-xs font-bold text-(--color-accent) select-none tracking-wider"
+          >
+            {t.wpmLabel}
+          </span>
+          {/* Info icon with tooltip */}
+          <span className="group relative inline-flex items-center">
+            <svg
+              viewBox="0 0 24 24"
+              width="13"
+              height="13"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-(--color-text-muted) cursor-default"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4M12 8h.01" />
+            </svg>
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded-md text-xs bg-(--color-surface) border border-(--color-border) text-(--color-text-muted) whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none shadow-sm z-10">
+              {t.wpmTooltip}
+            </span>
+          </span>
+        </div>
       </div>
 
       {/* Keyboard hint */}
-      <p className="text-xs text-(--color-text-muted) select-none tracking-wide">
+      <p className="text-xs md:text-sm text-(--color-text-muted) select-none tracking-wide">
         {t.keyboardHint}
       </p>
     </div>

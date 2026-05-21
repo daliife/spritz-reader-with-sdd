@@ -6,5 +6,8 @@
  */
 
 export function parseText(raw: string): string[] {
-  return raw.split(/\s+/).filter((w) => w.length > 0);
+  return raw
+    .split(/\s+/)
+    .flatMap((w) => w.split(/[-\u2013\u2014]+/))
+    .filter((w) => w.length > 0);
 }

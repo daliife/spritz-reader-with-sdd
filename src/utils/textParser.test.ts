@@ -51,4 +51,19 @@ describe("parseText", () => {
       "minute",
     ]);
   });
+
+  it("splits hyphenated words into separate tokens", () => {
+    expect(parseText("well-known fact")).toEqual(["well", "known", "fact"]);
+    expect(parseText("words-per-minute")).toEqual(["words", "per", "minute"]);
+  });
+
+  it("filters out standalone dashes (em-dash, en-dash, hyphen)", () => {
+    expect(parseText("one — two")).toEqual(["one", "two"]);
+    expect(parseText("one \u2013 two")).toEqual(["one", "two"]);
+    expect(parseText("one - two")).toEqual(["one", "two"]);
+  });
+
+  it("splits words joined by em-dash without spaces", () => {
+    expect(parseText("before\u2014after")).toEqual(["before", "after"]);
+  });
 });

@@ -26,7 +26,7 @@ export function SpeedReader({
   return (
     <div
       className={[
-        "relative flex items-center justify-center w-full h-44 overflow-hidden bg-(--color-surface) group",
+        "relative flex items-center justify-center w-full h-44 md:h-64 overflow-hidden bg-(--color-surface) group",
         isInteractive ? "cursor-pointer select-none" : "",
       ].join(" ")}
       role={isInteractive ? "button" : "region"}
@@ -55,8 +55,12 @@ export function SpeedReader({
       {/* Vertical focal guide */}
       <div
         className={[
-          "absolute top-0 bottom-0 w-0.5 bg-(--color-accent) opacity-60",
-          status === "playing" ? "animate-guide-pulse" : "",
+          "absolute top-0 bottom-0 w-0.5 bg-(--color-accent) transition-opacity duration-300",
+          status === "playing"
+            ? "opacity-100"
+            : status === "paused"
+              ? "opacity-50"
+              : "opacity-20",
         ].join(" ")}
         aria-hidden="true"
       />
@@ -68,9 +72,13 @@ export function SpeedReader({
             className="relative flex items-center justify-center"
             aria-hidden="true"
           >
-            <div className="absolute w-14 h-14 rounded-full bg-(--color-accent) opacity-25 animate-zen-pulse" />
-            <div className="w-12 h-12 rounded-full bg-(--color-accent) flex items-center justify-center">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+            <div className="absolute w-14 h-14 md:w-20 md:h-20 rounded-full bg-(--color-accent) opacity-0 group-hover:animate-zen-pulse" />
+            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-(--color-accent) flex items-center justify-center">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-5 h-5 md:w-7 md:h-7"
+                fill="white"
+              >
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
@@ -81,16 +89,10 @@ export function SpeedReader({
         </div>
       )}
 
-      {status === "finished" && (
-        <span className="text-(--color-text-muted) text-base select-none">
-          {t.finishedMessage}
-        </span>
-      )}
-
-      {/* Paused hint — always visible at bottom of card */}
+      {/* Paused hint — bottom-right corner */}
       {status === "paused" && (
         <div
-          className="absolute bottom-3 inset-x-0 flex justify-center pointer-events-none"
+          className="absolute bottom-3 right-3 pointer-events-none"
           aria-hidden="true"
         >
           <span className="flex items-center gap-1 text-xs text-(--color-text-muted)">
@@ -108,10 +110,10 @@ export function SpeedReader({
         </div>
       )}
 
-      {/* Playing hint — appears on hover only, positioned in corner away from focal guide */}
+      {/* Playing hint — always visible, bottom-right corner */}
       {status === "playing" && (
         <div
-          className="absolute bottom-3 right-3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute bottom-3 right-3 pointer-events-none"
           aria-hidden="true"
         >
           <span className="flex items-center gap-1 text-xs text-(--color-text-muted)">
@@ -130,9 +132,11 @@ export function SpeedReader({
         </div>
       )}
 
-      {(status === "playing" || status === "paused") && (
+      {(status === "playing" ||
+        status === "paused" ||
+        status === "finished") && (
         <span
-          className="absolute top-1/2 font-mono text-6xl font-bold select-none whitespace-nowrap"
+          className="absolute top-1/2 font-mono text-6xl md:text-8xl font-bold select-none whitespace-nowrap"
           style={{
             left: "50%",
             transform: `translate(calc(-${left.length}ch - 0.5ch), -50%)`,

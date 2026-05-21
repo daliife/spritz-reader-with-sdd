@@ -50,6 +50,16 @@ describe("useSpeedReader", () => {
     expect(result.current.status).toBe("finished");
   });
 
+  it("auto-resets to idle 3 s after finishing", () => {
+    const { result } = renderHook(() => useSpeedReader(TEXT, 600));
+    act(() => result.current.play());
+    act(() => vi.advanceTimersByTime(600)); // reach finished
+    expect(result.current.status).toBe("finished");
+    act(() => vi.advanceTimersByTime(3000)); // wait for auto-reset
+    expect(result.current.status).toBe("idle");
+    expect(result.current.currentIndex).toBe(0);
+  });
+
   it("resets to idle on restart()", () => {
     const { result } = renderHook(() => useSpeedReader(TEXT, 600));
     act(() => result.current.play());

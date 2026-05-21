@@ -10,61 +10,24 @@ const mockT: Translations = {
   idlePlaceholder: "Press play to start reading",
   clickToResume: "Click to resume",
   clickToPause: "Click to pause",
-  finishedMessage: "Finished — press restart to read again",
-  play: "▶ Play",
-  pause: "⏸ Pause",
-  restart: "↺ Restart",
   changeText: "Change text ↓",
   hideTextPanel: "Hide text panel ↑",
   textareaPlaceholder: "Paste your own text here…",
   useDemoText: "Use demo text",
   switchToLight: "Switch to light mode",
   switchToDark: "Switch to dark mode",
+  wpmLabel: "WPM",
+  wpmTooltip: "Words per minute",
   keyboardHint: "Space · R · ← / →",
 };
 
 const defaultProps = {
-  status: "idle" as const,
   wpm: 300,
-  onPlay: vi.fn(),
-  onPause: vi.fn(),
-  onRestart: vi.fn(),
   onWpmChange: vi.fn(),
   t: mockT,
 };
 
 describe("Controls", () => {
-  it("renders the Play button when not playing", () => {
-    render(<Controls {...defaultProps} />);
-    expect(screen.getByRole("button", { name: /play/i })).toBeInTheDocument();
-  });
-
-  it("renders the Pause button when playing", () => {
-    render(<Controls {...defaultProps} status="playing" />);
-    expect(screen.getByRole("button", { name: /pause/i })).toBeInTheDocument();
-  });
-
-  it("fires onPlay when Play is clicked", async () => {
-    const onPlay = vi.fn();
-    render(<Controls {...defaultProps} onPlay={onPlay} />);
-    await userEvent.click(screen.getByRole("button", { name: /play/i }));
-    expect(onPlay).toHaveBeenCalledOnce();
-  });
-
-  it("fires onPause when Pause is clicked", async () => {
-    const onPause = vi.fn();
-    render(<Controls {...defaultProps} status="playing" onPause={onPause} />);
-    await userEvent.click(screen.getByRole("button", { name: /pause/i }));
-    expect(onPause).toHaveBeenCalledOnce();
-  });
-
-  it("fires onRestart when Restart is clicked", async () => {
-    const onRestart = vi.fn();
-    render(<Controls {...defaultProps} onRestart={onRestart} />);
-    await userEvent.click(screen.getByRole("button", { name: /restart/i }));
-    expect(onRestart).toHaveBeenCalledOnce();
-  });
-
   it("renders all 5 WPM preset buttons", () => {
     render(<Controls {...defaultProps} />);
     for (const preset of [100, 200, 300, 500, 750]) {
@@ -91,10 +54,5 @@ describe("Controls", () => {
       screen.getByRole("radio", { name: "500 words per minute" }),
     );
     expect(onWpmChange).toHaveBeenCalledWith(500);
-  });
-
-  it("disables Play button when finished", () => {
-    render(<Controls {...defaultProps} status="finished" />);
-    expect(screen.getByRole("button", { name: /play/i })).toBeDisabled();
   });
 });

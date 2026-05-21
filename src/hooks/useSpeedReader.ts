@@ -115,6 +115,18 @@ export function useSpeedReader(
     [startInterval],
   );
 
+  // Auto-reset to idle after finishing — ref: spec US-02
+  useEffect(() => {
+    if (status !== "finished") return;
+    const timer = setTimeout(() => {
+      stopInterval();
+      indexRef.current = 0;
+      setCurrentIndex(0);
+      setStatus("idle");
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [status, stopInterval]);
+
   // Cleanup on unmount
   useEffect(() => () => stopInterval(), [stopInterval]);
 

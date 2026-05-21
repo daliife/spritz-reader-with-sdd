@@ -41,12 +41,9 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 
 **Acceptance Criteria:**
 
-- [ ] A Play/Pause button toggles playback. When paused, the current word stays on screen.
-- [ ] Clicking anywhere on the reader display card also toggles play/pause (idle → play, playing → pause, paused → play). Has no effect when finished.
+- [ ] Clicking anywhere on the reader display card toggles play/pause (idle → play, playing → pause, paused → play). Has no effect when finished.
 - [ ] The reader card shows a "click to play" hint in the idle state.
-- [ ] A Restart button is placed alongside the Play/Pause button in the Controls area, forming a coherent playback group.
-- [ ] Playback state is clearly communicated via the button label/icon.
-- [ ] When the last word is reached, playback stops automatically and the finished state is shown.
+- [ ] When the last word is reached, playback stops automatically, the finished state is shown briefly, then the reader auto-resets to idle after 3 seconds — preserving the loaded text (including any custom text the user has entered).
 - [ ] A ‘Click to resume’ hint (small label with play icon) is visible at the bottom of the reader card while paused.
 - [ ] A ⏸ badge with "Click to pause" label is shown in the bottom-right corner of the reader card on hover while playing, away from the central focal guide line.
 - [ ] The reader card border transitions to accent colour on hover (when interactive) to reinforce that the card is clickable.
@@ -61,7 +58,7 @@ A web application that demonstrates the **Spritz speed-reading technique**: word
 - [ ] The default WPM on first load is **200** (matches average reading speed, giving a comfortable baseline).
 - [ ] The active preset is visually highlighted (accent color).
 - [ ] Changing speed during playback takes effect immediately without restarting.
-- [ ] Keyboard arrows (← / →) also adjust WPM in steps of 50 within the 100–1000 range.
+- [ ] Keyboard arrows (← / →) cycle through the 5 WPM presets (100 → 200 → 300 → 500 → 750) one step at a time.
 
 ### US-04 — ~~Progress Indicator~~ _(removed)_
 

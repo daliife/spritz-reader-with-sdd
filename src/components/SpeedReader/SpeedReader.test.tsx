@@ -9,10 +9,6 @@ const mockT: Translations = {
   idlePlaceholder: "Click to play",
   clickToResume: "Click to resume",
   clickToPause: "Click to pause",
-  finishedMessage: "Finished — press restart to read again",
-  play: "▶ Play",
-  pause: "⏸ Pause",
-  restart: "↺ Restart",
   changeText: "Change text ↓",
   hideTextPanel: "Hide text panel ↑",
   textareaPlaceholder: "Paste your own text here…",
@@ -30,7 +26,7 @@ describe("SpeedReader", () => {
     expect(screen.getByText(/click to play/i)).toBeInTheDocument();
   });
 
-  it("shows completion message in finished state", () => {
+  it("shows the last word in finished state", () => {
     render(
       <SpeedReader
         word="done"
@@ -39,7 +35,7 @@ describe("SpeedReader", () => {
         onTogglePlay={vi.fn()}
       />,
     );
-    expect(screen.getByText(/finished/i)).toBeInTheDocument();
+    expect(screen.getByLabelText("done")).toBeInTheDocument();
   });
 
   it("renders the word when playing", () => {
