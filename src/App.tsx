@@ -152,7 +152,7 @@ export default function App() {
               />
             </svg>
           </div>
-          <h1 className="text-base font-bold tracking-tight">Spritz Reader</h1>
+          <h1 className="text-base font-bold tracking-tight">{t.appTitle}</h1>
         </div>
         <div className="flex items-center gap-3">
           <LanguageSelector

@@ -2,6 +2,7 @@ export type Language = "en" | "ca" | "es";
 
 export interface Translations {
   // App intro
+  appTitle: string;
   appTagline: string;
   appTaglineEmphasis: string;
   appDescription: string;
@@ -26,6 +27,7 @@ export interface Translations {
 
 export const translations: Record<Language, Translations> = {
   en: {
+    appTitle: "Spritz Reader",
     appTagline: "Read faster,",
     appTaglineEmphasis: "one word at a time.",
     appDescription:
@@ -44,6 +46,7 @@ export const translations: Record<Language, Translations> = {
     keyboardHint: "Space · R · ← / →",
   },
   ca: {
+    appTitle: "Lector Spritz",
     appTagline: "Llegeix més ràpid,",
     appTaglineEmphasis: "una paraula alhora.",
     appDescription:
@@ -62,6 +65,7 @@ export const translations: Record<Language, Translations> = {
     keyboardHint: "Espai · R · ← / →",
   },
   es: {
+    appTitle: "Lector Spritz",
     appTagline: "Lee más rápido,",
     appTaglineEmphasis: "palabra a palabra.",
     appDescription:
