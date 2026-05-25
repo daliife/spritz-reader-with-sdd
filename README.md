@@ -4,6 +4,10 @@ A minimalist web app that demonstrates the **Spritz speed-reading technique**: w
 
 Built with **React 19 + Vite 6 + TypeScript + Tailwind CSS v4**, following the **Spec-Driven Development (SDD)** methodology.
 
+**Live demo:** [https://daliife.github.io/spritz-reader-with-sdd/](https://daliife.github.io/spritz-reader-with-sdd/)
+
+![Spritz Reader screenshot](docs/readme-screnshot.jpg)
+
 ---
 
 ## Features
